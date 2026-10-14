@@ -1,0 +1,32 @@
+{
+  "name": "doan3-app-backend",
+  "version": "1.0.0",
+  "description": "Backend API for the CARBOOK web app",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon -e ts,js,json --exec tsx src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "ethers": "^6.17.0",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "firebase-admin": "^14.1.0",
+    "node-cron": "^4.6.0",
+    "nodemailer": "^9.0.3",
+    "uuid": "^9.0.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "nodemon": "^3.1.4",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
