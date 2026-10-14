@@ -1,0 +1,13 @@
+.aider*
+build/
+.dart_tool/
+
+.env.*
+!.env.example
+.DS_Store
+*.log
+ngrok*
+backend/firestore-backup/
+Ảnh màn hình*
+key.png
+keyVN*.png
