@@ -1,6 +1,7 @@
 const { Timestamp } = require('firebase-admin/firestore');
 const { db } = require('../config/firebase');
-const { hashPassword } = require('../utils/passwordHash');
+const { hashPassword, verifyPassword } = require('../utils/passwordHash');
+const { signToken } = require('../utils/authToken');
 
 const TAIKHOAN_COLLECTION = 'TAIKHOAN';
 
@@ -30,7 +31,8 @@ exports.login = async (req, res) => {
       return res.status(403).json({ success: false, message: 'Tài khoản này không có quyền truy cập trang quản trị.' });
     }
 
-    if (userData.password !== hashPassword(password)) {
+    const kiemTra = await verifyPassword(password, userData.password);
+    if (!kiemTra.ok) {
       return res.status(401).json({ success: false, message: 'Email hoặc mật khẩu không đúng.' });
     }
 
@@ -38,11 +40,14 @@ exports.login = async (req, res) => {
       return res.status(403).json({ success: false, message: 'Tài khoản đã bị khóa.' });
     }
 
-    await userDoc.ref.update({ lastLogin: Timestamp.now() });
+    const capNhat = { lastLogin: Timestamp.now() };
+    if (kiemTra.needsUpgrade) capNhat.password = await hashPassword(password);
+    await userDoc.ref.update(capNhat);
 
     return res.status(200).json({
       success: true,
       message: 'Đăng nhập thành công.',
+      token: signToken({ maTaiKhoan: userDoc.id, role: 'AD' }),
       user: {
         id: userDoc.id,
         email: userData.email,

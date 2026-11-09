@@ -2,7 +2,8 @@ const crypto = require('crypto');
 const { Timestamp } = require('firebase-admin/firestore');
 const { db } = require('../config/firebase');
 const { sendOtpEmail } = require('../config/mailer');
-const { hashPassword } = require('../utils/passwordHash');
+const { hashPassword, verifyPassword } = require('../utils/passwordHash');
+const { signToken } = require('../utils/authToken');
 
 const OTP_TTL_MS = 5 * 60 * 1000; // OTP sống 5 phút
 
@@ -132,8 +133,13 @@ exports.googleAuth = async (req, res) => {
         success: true,
         message: 'Đăng nhập Google thành công.',
         isNewUser: true,
+        token: signToken({ maTaiKhoan: userId, role: 'KH' }),
         user: sanitizeUser(createdDoc),
       });
+    }
+
+    if (userDoc.data().trangThai && userDoc.data().trangThai !== 'active') {
+      return res.status(403).json({ success: false, message: 'Tài khoản đã bị khóa.' });
     }
 
     const userRef = userDoc.ref;
@@ -159,6 +165,7 @@ exports.googleAuth = async (req, res) => {
       success: true,
       message: 'Đăng nhập Google thành công.',
       isNewUser: false,
+      token: signToken({ maTaiKhoan: updatedDoc.id, role: 'KH' }),
       user: sanitizeUser(updatedDoc),
     });
   } catch (error) {
@@ -205,7 +212,7 @@ exports.register = async (req, res) => {
       lastName: lastName.trim(),
       email: normalizedEmail,
       phone: normalizedPhone,
-      password: hashPassword(password),
+      password: await hashPassword(password),
       hinhThucDangNhap: 'Local',
       loaiTaiKhoan: 'KH',
       trangThai: 'active',
@@ -244,7 +251,8 @@ exports.login = async (req, res) => {
     }
 
     const userData = userDoc.data();
-    if (userData.password !== hashPassword(password)) {
+    const kiemTra = await verifyPassword(password, userData.password);
+    if (!kiemTra.ok) {
       return res.status(401).json({ success: false, message: 'Thông tin đăng nhập không đúng.' });
     }
 
@@ -255,12 +263,16 @@ exports.login = async (req, res) => {
     // Ghi lastLogin ở chế độ "bắn rồi quên": nếu Firestore đang chặn/trễ ghi (vượt hạn mức, mạng chậm)
     // thì vẫn cho đăng nhập, không để request treo.
     const now = Timestamp.now();
-    userDoc.ref.update({ lastLogin: now }).catch((err) => console.warn('Không ghi được lastLogin:', err.message));
+    const capNhatDangNhap = { lastLogin: now };
+    // Hash cũ (SHA-256 không salt) -> băm lại bằng scrypt có salt ngay lúc đăng nhập đúng
+    if (kiemTra.needsUpgrade) capNhatDangNhap.password = await hashPassword(password);
+    userDoc.ref.update(capNhatDangNhap).catch((err) => console.warn('Không ghi được lastLogin:', err.message));
 
     const userAfter = { id: userDoc.id, data: () => ({ ...userData, lastLogin: now }) };
     return res.status(200).json({
       success: true,
       message: 'Đăng nhập thành công.',
+      token: signToken({ maTaiKhoan: userDoc.id, role: 'KH' }),
       user: sanitizeUser(userAfter),
     });
   } catch (error) {
@@ -415,7 +427,7 @@ exports.resetPassword = async (req, res) => {
     }
 
     await userDoc.ref.update({
-      password: hashPassword(newPassword),
+      password: await hashPassword(newPassword),
       resetOtp: null,
       resetOtpExpires: null,
       ngayCapNhat: Timestamp.now(),

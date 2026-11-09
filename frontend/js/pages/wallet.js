@@ -1,4 +1,4 @@
-import { api, session, icon, esc, money, num, fmtDateTime, shortAddr, etherscan, toastErr, toastOk, setBusy, modal, pinBox, alertBox, copyText, emptyHTML, errorHTML, loadingHTML } from '../core.js';
+import { api, session, icon, esc, money, num, fmtDateTime, shortAddr, toastErr, toastOk, setBusy, modal, pinBox, alertBox, copyText, emptyHTML, errorHTML, loadingHTML } from '../core.js';
 import { go } from '../app.js';
 
 const backBtn = (href) => `<a class="back" href="#${href}" aria-label="Quay lại">${icon('back')}</a>`;
@@ -6,13 +6,13 @@ const PENDING_KEY = 'carbook_pending_vnpay';
 const NO_WALLET = (a) => !a || /^0x0+$/.test(a);
 
 async function getAddress() {
-  try { const d = await api(`/api/wallet/userId/${session.userId}`, { auth: false }); return NO_WALLET(d.walletAddress) ? null : d.walletAddress; } catch { return null; }
+  try { const d = await api(`/api/wallet/userId/${session.userId}`); return NO_WALLET(d.walletAddress) ? null : d.walletAddress; } catch { return null; }
 }
 async function getBalance(addr) {
-  const d = await api(`/api/wallet/balance/${addr}`, { auth: false });
+  const d = await api(`/api/wallet/balance/${addr}`);
   return { balance: Number(d.balance) || 0, available: Number(d.availableBalance ?? d.balance) || 0 };
 }
-const txIcon = { 'Nạp tiền': ['down', 'green'], 'Rút tiền': ['up', 'red'], 'Thanh toán': ['bus', 'red'], 'Hoàn tiền': ['refresh', 'green'] };
+const txIcon = { 'Nạp tiền': ['down', 'green'], 'Rút tiền': ['up', 'red'], 'Thanh toán': ['bus', 'red'], 'Hoàn tiền': ['refresh', 'green'], 'Mua vé lại': ['ticket', 'red'], 'Bán vé lại': ['ticket', 'green'] };
 function txRow(t) {
   const [ic, col] = txIcon[t.type] || ['card', 'gray'];
   const pos = String(t.amount).startsWith('+');
@@ -20,18 +20,8 @@ function txRow(t) {
   return `<div class="item"><span class="ico ${col}">${icon(ic)}</span>
     <div class="grow"><b>${esc(t.title || t.type)}</b>
       <div class="hint">${fmtDateTime(t.time)} · <span style="color:var(--${ok ? 'success' : 'danger'})">${esc(t.status)}</span></div>
-      ${t.txHash ? `<a class="hint mono" target="_blank" rel="noopener" href="${etherscan('tx', esc(t.txHash))}">${esc(shortAddr(t.txHash))} ${icon('ext', 'sm')}</a>` : ''}</div>
+      ${t.txHash ? `<div class="hint mono">Mã GD ${esc(shortAddr(t.txHash))}</div>` : ''}</div>
     <div class="money tx-amt ${pos ? 'pos' : 'neg'}">${esc(t.amount)}</div></div>`;
-}
-
-// ---------- Mã khôi phục ví ----------
-function showRecovery(code) {
-  return modal(`<h2>Lưu mã khôi phục ví</h2>
-    <p class="muted mt-s">Đây là cách <b>DUY NHẤT</b> để khôi phục quyền dùng ví nếu bạn mất quyền truy cập tài khoản. CarbookPay không lưu mã dưới dạng có thể xem lại — hãy ghi lại và cất giữ an toàn, không chia sẻ cho ai.</p>
-    <div class="card flat mt center"><div class="hint">Mã khôi phục ví</div><div class="mono" style="font-size:20px;font-weight:700;letter-spacing:.06em;margin:6px 0;user-select:all">${esc(code)}</div>
-      <button class="btn sm" id="cp">${icon('copy', 'sm')} Sao chép mã</button></div>
-    <div class="actions"><button class="btn primary" data-close="true">Tôi đã lưu mã này</button></div>`,
-  { dismissible: false, onMount: (b) => b.querySelector('#cp').addEventListener('click', () => copyText(code, 'Đã sao chép mã khôi phục.')) }).result;
 }
 
 // =====================================================================
@@ -45,16 +35,16 @@ export async function wallet(ctx) {
 
   ctx.wide('mid');
   let bal = { balance: 0, available: 0 };
-  try { api('/api/token/deposit/reconcile-pending', { method: 'POST', body: { userWallet: addr }, auth: false }).catch(() => {}); bal = await getBalance(addr); } catch { /* hiển thị 0 */ }
+  try { api('/api/token/deposit/reconcile-pending', { method: 'POST', body: { userWallet: addr } }).catch(() => {}); bal = await getBalance(addr); } catch { /* hiển thị 0 */ }
   ctx.el.innerHTML = `
-    <div class="page-head"><div class="grow"><h1>Ví CarbookPay</h1><div class="sub">Quản lý số dư token CAR của bạn.</div></div></div>
+    <div class="page-head"><div class="grow"><h1>Ví CarbookPay</h1><div class="sub">Ví nội CARBOOK — số dư tính bằng VNĐ.</div></div></div>
     <div class="split">
       <section class="stack">
         <div class="wallet-card">
           <div class="lab">Số dư khả dụng</div>
           <div class="amt">${money(bal.available)}</div>
           ${bal.balance !== bal.available ? `<div class="lab">Tổng số dư ${money(bal.balance)} · đang khóa ${money(bal.balance - bal.available)}</div>` : ''}
-          <div class="mt"><span class="addr mono" id="addr">${icon('wallet', 'sm')} ${esc(shortAddr(addr))} <button class="link-btn" id="cp" style="color:#fff;padding:0" aria-label="Sao chép">${icon('copy', 'sm')}</button></span></div>
+          <div class="mt"><span class="addr mono" id="addr">${icon('wallet', 'sm')} Mã ví ${esc(addr)} <button class="link-btn" id="cp" style="color:#fff;padding:0" aria-label="Sao chép">${icon('copy', 'sm')}</button></span></div>
         </div>
         <div class="action-grid">
           <a class="action" href="#/wallet/deposit"><span class="ico green">${icon('down')}</span>Nạp tiền</a>
@@ -66,14 +56,14 @@ export async function wallet(ctx) {
           <div class="list" id="recent">${loadingHTML}</div></div>
       </section>
       <aside class="sticky-side stack">
-        <div class="card"><div class="row"><span class="ico">${icon('hub')}</span><div><h3 style="margin:0">Mạng Blockchain</h3><div class="hint">Ethereum Sepolia Testnet</div></div></div>
-          <p class="muted mt" style="font-size:14px">Ví hoạt động trên hạ tầng blockchain để mọi giao dịch minh bạch và có thể tra cứu công khai.</p>
-          <a class="btn block mt" href="#/blockchain">${icon('shield')} Xem minh bạch on-chain</a>
-          <a class="btn ghost block mt-s" target="_blank" rel="noopener" href="${etherscan('address', addr)}">${icon('ext')} Xem ví trên Etherscan</a></div>
+        <div class="card"><div class="row"><span class="ico">${icon('ticket')}</span><div><h3 style="margin:0">Vé xe là NFT</h3><div class="hint">Blockchain chứng nhận quyền sở hữu vé</div></div></div>
+          <p class="muted mt" style="font-size:14px">Tiền trong ví được quản lý trong hệ thống CARBOOK. Mỗi vé đã thanh toán là một NFT: bạn có thể rao bán lại trên chợ vé (giá tối đa 110% giá gốc) và kiểm chứng công khai trên blockchain.</p>
+          <a class="btn block mt" href="#/market">${icon('swap')} Chợ vé NFT</a>
+          <a class="btn ghost block mt-s" href="#/blockchain">${icon('shield')} Vé NFT của tôi &amp; hợp đồng</a></div>
       </aside>
     </div>`;
   ctx.el.querySelector('#cp').addEventListener('click', () => copyText(addr, 'Đã sao chép địa chỉ ví.'));
-  api(`/api/token/history/${addr}`, { auth: false }).then((d) => {
+  api(`/api/token/history/${addr}`).then((d) => {
     const el = ctx.el.querySelector('#recent'); if (!el) return;
     const arr = (d.transactions || []).slice(0, 4);
     el.innerHTML = arr.length ? arr.map(txRow).join('') : emptyHTML('history', 'Chưa có giao dịch', 'Hãy nạp tiền để bắt đầu.');
@@ -87,11 +77,10 @@ function activation(ctx) {
     <div class="page-head"><div class="grow"><h1>Ví CarbookPay</h1></div></div>
     <div class="card center"><span class="ico" style="margin:0 auto 12px;width:64px;height:64px;border-radius:20px">${icon('wallet', 'lg')}</span>
       <h2>Kích hoạt ví để thanh toán</h2>
-      <p class="muted mt-s">Ví được tạo trên blockchain Sepolia, dùng token CAR để thanh toán vé nhanh chóng, không phí gas.</p>
+      <p class="muted mt-s">Ví nội CARBOOK giúp bạn nạp tiền một lần qua VNPay và thanh toán vé nhanh bằng mã PIN, hoàn tiền về ví ngay khi hủy vé.</p>
       <label class="check mt" style="text-align:left"><input type="checkbox" id="agree"><span>Tôi đồng ý với điều khoản sử dụng ví CarbookPay.</span></label>
       <div class="err-msg hidden mt-s" id="err"></div>
       <button class="btn primary lg block mt" id="act" disabled>Kích hoạt ví</button>
-      <button class="btn ghost block mt-s" id="link">${icon('link')} Liên kết ví đã có</button>
     </div>`;
   const agree = ctx.el.querySelector('#agree'), act = ctx.el.querySelector('#act'), err = ctx.el.querySelector('#err');
   agree.addEventListener('change', () => { act.disabled = !agree.checked; });
@@ -101,37 +90,15 @@ function activation(ctx) {
     showErr('');
     const maPin = await pinBox({ title: 'Đặt mã PIN ví', desc: 'Mã PIN gồm 6 chữ số, dùng để xác nhận mỗi lần thanh toán vé bằng ví.', confirm: true });
     if (!maPin) return;
-    setBusy(act, true, 'Đang tạo ví trên blockchain… (có thể mất ~30 giây)');
+    setBusy(act, true, 'Đang tạo ví…');
     try {
-      const r = await api('/api/wallet/create', { method: 'POST', body: { userId: session.userId }, auth: false });
+      const r = await api('/api/wallet/create', { method: 'POST', body: { userId: session.userId } });
       try { await api('/api/wallet-pin/setup', { method: 'POST', body: { maPin } }); } catch (e) { toastErr(new Error('Chưa lưu được mã PIN, hãy đặt lại ở mục Mã PIN. ' + e.message)); }
-      if (r.maKhoiPhuc) await showRecovery(r.maKhoiPhuc);
       await alertBox({ title: 'Kích hoạt ví thành công!', html: '<p class="muted">Ví của bạn đã sẵn sàng. Hãy nạp tiền để trải nghiệm thanh toán vé xe nhanh chóng.</p>', ok: 'Tuyệt vời' });
       ctx.reload();
     } catch (e) { showErr(e.message); setBusy(act, false); }
   });
 
-  ctx.el.querySelector('#link').addEventListener('click', () => {
-    const m = modal(`<h2>Liên kết ví đã có</h2><p class="muted mt-s">Nhập địa chỉ ví và mã khôi phục ví (không phải private key).</p>
-      <form id="lf" class="stack mt"><div class="field"><label>Địa chỉ ví</label><input class="in mono" name="a" placeholder="0x…" autocomplete="off"></div>
-      <div class="field"><label>Mã khôi phục</label><input class="in mono" name="k" autocomplete="off"></div>
-      <div class="err-msg hidden" id="le"></div>
-      <div class="actions"><button type="button" class="btn ghost" data-close="false">Hủy</button><button class="btn primary" type="submit">Liên kết</button></div></form>`);
-    const f = m.box.querySelector('#lf'), le = m.box.querySelector('#le');
-    f.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!f.a.value.trim() || !f.k.value.trim()) { le.textContent = 'Vui lòng nhập đủ thông tin.'; le.classList.remove('hidden'); return; }
-      const btn = f.querySelector('[type=submit]'); setBusy(btn, true);
-      try {
-        const r = await api('/api/wallet/link', { method: 'POST', body: { userId: session.userId, walletAddress: f.a.value.trim(), maKhoiPhuc: f.k.value.trim() }, auth: false });
-        m.close(true);
-        const maPin = await pinBox({ title: 'Đặt mã PIN ví', desc: 'PIN được đặt theo tài khoản hiện tại.', confirm: true });
-        if (maPin) await api('/api/wallet-pin/setup', { method: 'POST', body: { maPin } }).catch(toastErr);
-        if (r.maKhoiPhuc) await showRecovery(r.maKhoiPhuc);
-        ctx.reload();
-      } catch (e2) { le.textContent = e2.message; le.classList.remove('hidden'); setBusy(btn, false); }
-    });
-  });
 }
 
 // =====================================================================
@@ -154,7 +121,7 @@ export async function deposit(ctx) {
         <div class="hint">Tối thiểu ${num(LIMIT[0])}đ · tối đa ${num(LIMIT[1])}đ mỗi lần</div></div>
       <div class="amount-presets">${PRESETS.map((p) => `<button type="button" data-p="${p}">${num(p)}</button>`).join('')}</div>
       <div class="method on"><span class="ico green">${icon('card')}</span><div class="grow"><b>VNPAY Sandbox</b><div class="hint">Thẻ ATM/ngân hàng nội địa — thử nghiệm</div></div>${icon('check')}</div>
-      <div class="info-msg">1.000đ = 1 token CAR. Token được mint vào ví sau khi VNPay xác nhận thanh toán.</div>
+      <div class="info-msg">Tiền được cộng vào ví CarbookPay ngay sau khi VNPay xác nhận thanh toán.</div>
       <div class="err-msg hidden" id="err"></div>
       <button class="btn primary lg block" id="go">Nạp tiền qua VNPay</button>
     </div>`;
@@ -168,7 +135,7 @@ export async function deposit(ctx) {
     if (v < LIMIT[0] || v > LIMIT[1]) { err.textContent = `Số tiền nạp tối thiểu ${num(LIMIT[0])}đ và tối đa ${num(LIMIT[1])}đ.`; err.classList.remove('hidden'); return; }
     setBusy(btn, true, 'Đang chuyển tới VNPay…');
     try {
-      const r = await api('/api/token/deposit', { method: 'POST', body: { userWallet: addr, amount: v }, auth: false });
+      const r = await api('/api/token/deposit', { method: 'POST', body: { userWallet: addr, amount: v } });
       if (!r.paymentUrl) throw new Error(r.message || 'Không thể tạo liên kết thanh toán VNPay.');
       localStorage.setItem(PENDING_KEY, JSON.stringify({ kind: 'deposit', orderId: String(r.orderId || ''), amount: v }));
       location.href = r.paymentUrl;
@@ -209,7 +176,7 @@ export async function withdraw(ctx) {
     err.classList.add('hidden');
     const btn = f.querySelector('[type=submit]'); setBusy(btn, true);
     try {
-      const r = await api('/api/token/withdraw/request', { method: 'POST', body: { userWallet: addr, amount: v, bankName: f.bank.value, bankAccount: f.acc.value.trim(), bankAccountName: f.name.value.trim() }, auth: false });
+      const r = await api('/api/token/withdraw/request', { method: 'POST', body: { userWallet: addr, amount: v, bankName: f.bank.value, bankAccount: f.acc.value.trim(), bankAccountName: f.name.value.trim() } });
       if (!r.requireOtp) throw new Error(r.message || 'Yêu cầu rút tiền không thành công.');
       setBusy(btn, false);
       askOtp(r.withdrawId, v, `${f.bank.value} (${f.acc.value.trim()})`);
@@ -227,7 +194,7 @@ export async function withdraw(ctx) {
       if (otp.value.trim().length !== 6) { oe.textContent = 'Mã OTP gồm 6 chữ số.'; oe.classList.remove('hidden'); return; }
       setBusy(ok, true);
       try {
-        const r = await api('/api/token/withdraw/confirm', { method: 'POST', body: { withdrawId, otp: otp.value.trim() }, auth: false });
+        const r = await api('/api/token/withdraw/confirm', { method: 'POST', body: { withdrawId, otp: otp.value.trim() } });
         if (r.success === false) throw new Error(r.message);
         m.close(true);
         ctx.wide('narrow');
@@ -250,15 +217,15 @@ export async function txHistory(ctx) {
   ctx.wide('mid');
   const addr = await getAddress();
   if (!addr) return go('/wallet', { replace: true });
-  const tabs = ['Tất cả', 'Nạp tiền', 'Rút tiền', 'Thanh toán', 'Hoàn tiền'];
+  const tabs = ['Tất cả', 'Nạp tiền', 'Rút tiền', 'Thanh toán', 'Hoàn tiền', 'Mua vé lại', 'Bán vé lại'];
   let tab = 'Tất cả', all = [];
-  ctx.el.innerHTML = `<div class="page-head">${backBtn('/wallet')}<div class="grow"><h1>Lịch sử giao dịch</h1><div class="sub">Đối chiếu trực tiếp từ sự kiện on-chain.</div></div></div>
+  ctx.el.innerHTML = `<div class="page-head">${backBtn('/wallet')}<div class="grow"><h1>Lịch sử giao dịch</h1><div class="sub">Mọi biến động số dư đều có dòng sổ cái đi kèm.</div></div></div>
     <div class="tabs" id="tabs">${tabs.map((t) => `<button data-t="${t}" class="${t === tab ? 'on' : ''}">${t}</button>`).join('')}</div>
     <div class="card pad-0 mt"><div class="list" id="list">${loadingHTML}</div></div>`;
   const list = ctx.el.querySelector('#list');
   const draw = () => { const a = all.filter((t) => tab === 'Tất cả' || t.type === tab); list.innerHTML = a.length ? a.map(txRow).join('') : emptyHTML('history', 'Không có giao dịch', ''); };
   ctx.el.querySelector('#tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-t]'); if (!b) return; tab = b.dataset.t; ctx.el.querySelectorAll('#tabs button').forEach((x) => x.classList.toggle('on', x === b)); draw(); });
-  try { all = (await api(`/api/token/history/${addr}`, { auth: false })).transactions || []; draw(); }
+  try { all = (await api(`/api/token/history/${addr}`)).transactions || []; draw(); }
   catch (e) { list.innerHTML = errorHTML(e.message); list.querySelector('[data-retry]')?.addEventListener('click', () => ctx.reload()); }
 }
 
@@ -305,46 +272,4 @@ export async function pin(ctx) {
     });
   };
   draw();
-}
-
-// =====================================================================
-//  Minh bạch on-chain (dành cho đồ án blockchain)
-// =====================================================================
-export async function blockchain(ctx) {
-  ctx.title('Minh bạch on-chain');
-  ctx.wide('mid');
-  const addr = await getAddress();
-  let info = null; try { info = await api('/api/blockchain/info', { auth: false }); } catch (e) { info = { error: e.message }; }
-  if (!ctx.isCurrent()) return;
-  const ex = info?.network?.explorer || 'https://sepolia.etherscan.io';
-  ctx.el.innerHTML = `
-    <div class="page-head">${backBtn('/wallet')}<div class="grow"><h1>Minh bạch on-chain</h1><div class="sub">Mọi giao dịch của CARBOOK đều có thể kiểm chứng công khai trên blockchain.</div></div></div>
-    <div class="split">
-      <section class="stack">
-        <div class="card"><h3>Mạng &amp; smart contract</h3>
-          ${info.error ? `<div class="warn-msg">${esc(info.error)}</div>` : `
-          <div class="kv"><span>Mạng</span><span>${esc(info.network.name)}</span></div>
-          <div class="kv"><span>Chain ID</span><span>${info.network.chainId}</span></div>
-          <div class="mt">${info.contracts.map((c) => `<div class="contract"><div class="row between"><b>${esc(c.label)}</b><span class="badge gray">${esc(c.name)}.sol</span></div>
-            <a class="mono" target="_blank" rel="noopener" href="${ex}/address/${esc(c.address)}">${esc(c.address)} ${icon('ext', 'sm')}</a></div>`).join('')}</div>`}
-        </div>
-        ${addr ? `<div class="card"><h3>Ví của bạn</h3><a class="mono" target="_blank" rel="noopener" href="${etherscan('address', addr)}">${esc(addr)} ${icon('ext', 'sm')}</a>
-          <h3 class="mt">Giao dịch on-chain</h3><div class="list" id="tx">${loadingHTML}</div></div>` : `<div class="info-msg">Kích hoạt ví để xem giao dịch on-chain của bạn.</div>`}
-      </section>
-      <aside class="sticky-side"><div class="card"><h3>Cách hoạt động</h3>
-        <div class="stack">
-          ${[['down', 'green', 'Nạp tiền', 'VNPay xác nhận → backend mint token CAR vào ví của bạn (CARToken.mint).'],
-            ['bus', '', 'Thanh toán vé', 'TicketPayment.payForTicket trừ token CAR; relayer trả phí gas, phát sự kiện PaymentSuccess.'],
-            ['refresh', 'warn', 'Hoàn tiền', 'Hủy vé trước giờ chạy 4 giờ → Refund.refundTicket hoàn 70% về ví, phát sự kiện RefundSuccess.'],
-            ['shield', 'gray', 'Đối chiếu', 'Lịch sử được đọc trực tiếp từ event on-chain, không thể bị chỉnh sửa.']].map(([ic, col, t, d]) => `
-            <div class="feature"><span class="ico ${col}">${icon(ic)}</span><div><h4>${t}</h4><p>${d}</p></div></div>`).join('')}
-        </div></div></aside>
-    </div>`;
-  if (addr) {
-    api(`/api/token/history/${addr}`, { auth: false }).then((d) => {
-      const el = ctx.el.querySelector('#tx'); if (!el) return;
-      const a = (d.transactions || []).filter((t) => t.txHash);
-      el.innerHTML = a.length ? a.map(txRow).join('') : emptyHTML('hub', 'Chưa có giao dịch on-chain', '');
-    }).catch(() => { const el = ctx.el.querySelector('#tx'); if (el) el.innerHTML = '<div class="empty"><p>Không tải được lịch sử.</p></div>'; });
-  }
 }

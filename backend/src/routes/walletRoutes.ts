@@ -1,12 +1,13 @@
 // backend/src/routes/walletRoutes.ts
 import { Router } from "express";
 import { WalletController } from "../controllers/walletController";
+import { requireOwnWallet, requireSelfAccount } from "../middlewares/auth";
 
 const router = Router();
 
-router.post("/create", WalletController.createWallet);
-router.post("/link", WalletController.linkExistingWallet);
-router.get("/balance/:address", WalletController.getBalance);
-router.get("/userId/:userId", WalletController.getWalletByUserId);
+// userId ở đây là mã TÀI KHOẢN — chỉ chính chủ (hoặc admin) được tạo/liên kết/tra ví của tài khoản đó.
+router.post("/create", requireSelfAccount("userId", "body"), WalletController.createWallet);
+router.get("/balance/:address", requireOwnWallet("address", "params"), WalletController.getBalance);
+router.get("/userId/:userId", requireSelfAccount("userId", "params"), WalletController.getWalletByUserId);
 
 export default router;

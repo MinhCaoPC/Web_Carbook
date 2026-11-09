@@ -7,7 +7,7 @@ export interface ITokenRepository {
     /**
      * Mint token (nạp tiền)
      * @param to - địa chỉ ví nhận token
-     * @param amount - số lượng CAR token
+     * @param amount - số tiền (VNĐ)
      */
     mint(to: string, amount: number): Promise<{ txHash: string }>;
 
@@ -19,7 +19,7 @@ export interface ITokenRepository {
     /**
      * Burn token (rút tiền)
      * @param from - địa chỉ ví gửi token
-     * @param amount - số lượng CAR token
+     * @param amount - số tiền (VNĐ)
      */
     burn(from: string, amount: number): Promise<{ txHash: string }>;
 

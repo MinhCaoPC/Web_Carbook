@@ -6,11 +6,11 @@ function shell({ title, sub, body, foot }) {
   <div class="auth">
     <aside class="auth-hero">
       <a class="brand" href="#/login"><span class="logo">${icon('bus')}</span>CARBOOK</a>
-      <h2>Đặt vé xe liên tỉnh, thanh toán minh bạch trên blockchain.</h2>
-      <p class="lead">Chọn chuyến, chọn ghế và thanh toán bằng token CAR. Mọi giao dịch được ghi nhận bởi smart contract trên Ethereum Sepolia.</p>
-      <div class="feat"><span class="ico">${icon('wallet')}</span><div><b>Ví CarBook Pay</b><small>Nạp tiền qua VNPay, thanh toán bằng token CAR</small></div></div>
-      <div class="feat"><span class="ico">${icon('shield')}</span><div><b>Smart contract</b><small>Thanh toán &amp; hoàn tiền tự động, tra cứu được trên Etherscan</small></div></div>
-      <div class="feat"><span class="ico">${icon('bolt')}</span><div><b>Không tốn phí gas</b><small>Relayer trả phí giao dịch thay người dùng</small></div></div>
+      <h2>Vé xe khách miền Tây, mỗi vé là một NFT của bạn.</h2>
+      <p class="lead">Chọn chuyến, chọn ghế và thanh toán bằng ví CarbookPay. Vé được phát hành thành NFT trên blockchain Ethereum Sepolia, có thể bán lại an toàn.</p>
+      <div class="feat"><span class="ico">${icon('wallet')}</span><div><b>Ví CarBook Pay</b><small>Nạp tiền qua VNPay, thanh toán bằng mã PIN</small></div></div>
+      <div class="feat"><span class="ico">${icon('shield')}</span><div><b>Vé NFT</b><small>Chống vé giả, kiểm chứng được trên Etherscan</small></div></div>
+      <div class="feat"><span class="ico">${icon('bolt')}</span><div><b>Chợ vé chống phe</b><small>Bán lại tối đa 110% giá gốc, không tốn phí gas</small></div></div>
     </aside>
     <div class="auth-main">
       <div class="auth-head">
@@ -52,7 +52,7 @@ async function mountGoogle(ctx, box, next) {
       callback: async (resp) => {
         try {
           const d = await api('/api/auth/google', { method: 'POST', body: { idToken: resp.credential }, auth: false });
-          session.save(d.user);
+          session.save(d.user, d.token);
           await session.ensureMaKH();
           go(next && next.startsWith('/') && !next.startsWith('/login') ? next : '/', { replace: true });
         } catch (e) { toastErr(e.message); }
@@ -89,7 +89,7 @@ export async function login(ctx) {
     showErr(err, ''); setBusy(btn, true);
     try {
       const d = await api('/api/auth/login', { method: 'POST', body: { identifier, password }, auth: false });
-      session.save(d.user);
+      session.save(d.user, d.token);
       await session.ensureMaKH();
       const next = ctx.query.next;
       go(next && next.startsWith('/') && !next.startsWith('/login') ? next : '/', { replace: true });

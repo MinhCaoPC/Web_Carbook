@@ -27,9 +27,10 @@ export default defineConfig({
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY || "",
   },
-   verify: {
+  verify: {
     etherscan: {
-      apiKey: "PN8WPPXQ6T2IPV32NX1NRP4XBUCQMF3GY2",
+      // Khóa API đọc từ biến môi trường (blockchain/.env, đã được .gitignore) — KHÔNG ghi cứng vào code.
+      apiKey: process.env.ETHERSCAN_API_KEY || "",
     },
      blockscout: {
       enabled: false,

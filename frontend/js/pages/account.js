@@ -21,7 +21,8 @@ export async function account(ctx) {
       <div class="card pad-0 list">
         ${item('/profile', 'user', '', 'Thông tin cá nhân', 'Họ tên, liên hệ, ảnh đại diện')}
         ${item('/wallet', 'wallet', 'green', 'Ví CarbookPay', 'Số dư, nạp/rút, mã PIN')}
-        ${item('/blockchain', 'hub', 'warn', 'Minh bạch on-chain', 'Smart contract &amp; giao dịch')}
+        ${item('/market', 'swap', 'warn', 'Chợ vé NFT', 'Mua bán lại vé an toàn')}
+        ${item('/blockchain', 'hub', 'gray', 'Vé NFT &amp; hợp đồng', 'Kiểm chứng trên blockchain')}
         ${item('/history', 'ticket', '', 'Vé của tôi', 'Lịch sử đặt vé')}
       </div>
       <div class="card pad-0 list">
@@ -59,7 +60,7 @@ export async function profile(ctx) {
   ctx.title('Thông tin cá nhân');
   ctx.wide('narrow');
   let u = session.user || {};
-  try { const d = await api(`/api/auth/profile/${session.userId}`, { auth: false }); u = d.user; session.update(u); } catch { /* dùng cache */ }
+  try { const d = await api(`/api/auth/profile/${session.userId}`); u = d.user; session.update(u); } catch { /* dùng cache */ }
   let photo = u.photoUrl || '', newPhoto = null;
   ctx.el.innerHTML = `
     <div class="page-head">${backBtn('/account')}<div class="grow"><h1>Thông tin cá nhân</h1></div></div>
@@ -91,7 +92,7 @@ export async function profile(ctx) {
     err.classList.add('hidden');
     const btn = f.querySelector('[type=submit]'); setBusy(btn, true);
     try {
-      const d = await api(`/api/auth/profile/${session.userId}`, { method: 'PATCH', auth: false, body: {
+      const d = await api(`/api/auth/profile/${session.userId}`, { method: 'PATCH', body: {
         firstName: f.fn.value.trim(), lastName: f.ln.value.trim(), phone: f.ph.value.trim(), email: f.em.value.trim(),
         birthDate: f.bd.value, gender: f.gd.value, job: f.job.value.trim(), ...(newPhoto ? { photoUrl: newPhoto } : {}),
       } });
@@ -128,7 +129,7 @@ export async function support(ctx) {
     err.classList.add('hidden');
     const btn = f.querySelector('[type=submit]'); setBusy(btn, true);
     try {
-      await api('/api/support', { method: 'POST', auth: false, body: { maKhachHang: session.userId || 'KH_GUEST', loaiYeuCau: f.topic.value, noiDungYeuCau: f.content.value.trim(), thongTinLienHe: f.contact.value.trim() } });
+      await api('/api/support', { method: 'POST', body: { maKhachHang: session.userId || 'KH_GUEST', loaiYeuCau: f.topic.value, noiDungYeuCau: f.content.value.trim(), thongTinLienHe: f.contact.value.trim() } });
       toastOk('Đã gửi yêu cầu hỗ trợ thành công!'); go('/support/history');
     } catch (e2) { bad(e2.message); setBusy(btn, false); }
   });
@@ -141,7 +142,7 @@ export async function supportHistory(ctx) {
   ctx.el.innerHTML = `<div class="page-head">${backBtn('/support')}<div class="grow"><h1>Lịch sử hỗ trợ</h1></div><a class="btn sm primary" href="#/support">${icon('plus', 'sm')} Yêu cầu mới</a></div><div id="list">${loadingHTML}</div>`;
   const list = ctx.el.querySelector('#list');
   try {
-    const arr = (await api(`/api/support/${session.userId}`, { auth: false })).data || [];
+    const arr = (await api(`/api/support/${session.userId}`)).data || [];
     list.innerHTML = arr.length ? `<div class="stack">${arr.map((r) => {
       const st = SUP[r.trangThai] || [r.trangThai, 'gray'];
       return `<div class="card"><div class="row between"><b>${esc(r.loaiYeuCau)}</b><span class="badge ${st[1]}">${esc(st[0])}</span></div>

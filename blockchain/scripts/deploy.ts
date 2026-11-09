@@ -1,96 +1,52 @@
 import hre from "hardhat";
 
+// Triển khai bộ hợp đồng vé NFT của CARBOOK:
+//   TicketNFT    – mỗi vé xe là một NFT (ERC-721 + ERC-2981 royalty)
+//   TicketMarket – chợ bán lại có giá trần (mặc định 110% giá gốc)
+// Ví tiền KHÔNG còn nằm trên blockchain (ví nội Firestore) nên không có token/ví/thanh toán on-chain.
 async function main() {
-  console.log("🚀 Deploying Carbook Pay Smart Contracts...\n");
+  console.log("🚀 Deploying CARBOOK ticket NFT contracts...\n");
 
-  // Get deployer and relayer accounts
   const { ethers } = await hre.network.getOrCreate();
   const [deployer] = await ethers.getSigners();
   const relayerAddress = process.env.RELAYER_PRIVATE_KEY
     ? new ethers.Wallet(process.env.RELAYER_PRIVATE_KEY).address
     : deployer.address;
+  // Nhà xe nhận royalty khi vé được bán lại (mặc định: deployer)
+  const royaltyReceiver = process.env.ROYALTY_RECEIVER || deployer.address;
+  const royaltyBps = Number(process.env.ROYALTY_BPS || 500); // 5%
+  const baseUri = process.env.NFT_BASE_URI || "";
 
-  console.log("Deploying contracts with account:", deployer.address);
-  console.log("Relayer address:", relayerAddress);
-  console.log("");
+  console.log("Deployer:", deployer.address);
+  console.log("Relayer :", relayerAddress);
+  console.log("Royalty :", royaltyReceiver, `${royaltyBps / 100}%\n`);
 
-  // 1. Deploy CARToken
-  console.log("1️⃣  Deploying CARToken...");
-  const CARToken = await ethers.getContractFactory("CARToken");
-  const carToken = await CARToken.deploy();
-  await carToken.waitForDeployment();
-  const carTokenAddress = await carToken.getAddress();
-  console.log("✅ CARToken deployed at:", carTokenAddress);
+  console.log("1️⃣  Deploying TicketNFT...");
+  const nft = await ethers.deployContract("TicketNFT", [royaltyReceiver, royaltyBps]);
+  await nft.waitForDeployment();
+  const nftAddress = await nft.getAddress();
+  console.log("✅ TicketNFT   :", nftAddress);
 
-  // 2. Deploy Wallet
-  console.log("\n2️⃣  Deploying Wallet...");
-  const Wallet = await ethers.getContractFactory("Wallet");
-  const wallet = await Wallet.deploy(carTokenAddress);
-  await wallet.waitForDeployment();
-  const walletAddress = await wallet.getAddress();
-  console.log("✅ Wallet deployed at:", walletAddress);
+  console.log("2️⃣  Deploying TicketMarket...");
+  const market = await ethers.deployContract("TicketMarket", [nftAddress]);
+  await market.waitForDeployment();
+  const marketAddress = await market.getAddress();
+  console.log("✅ TicketMarket:", marketAddress);
 
-  // 3. Deploy TicketPayment
-  console.log("\n3️⃣  Deploying TicketPayment...");
-  const TicketPayment = await ethers.getContractFactory("TicketPayment");
-  const ticketPayment = await TicketPayment.deploy(carTokenAddress, walletAddress, relayerAddress);
-  await ticketPayment.waitForDeployment();
-  const ticketPaymentAddress = await ticketPayment.getAddress();
-  console.log("✅ TicketPayment deployed at:", ticketPaymentAddress);
+  // BẮT BUỘC: thiếu bước cấp quyền thì backend không mint/bán lại được.
+  console.log("\n3️⃣  Setting up permissions...");
+  await (await nft.setOperator(relayerAddress, true)).wait();          // relayer mint / burn / check-in
+  await (await nft.setOperator(marketAddress, true)).wait();           // market chuyển vé khi bán lại
+  await (await market.setOperator(relayerAddress, true)).wait();       // relayer rao bán / mua hộ người dùng
+  if (baseUri) await (await nft.setBaseURI(baseUri)).wait();
+  console.log("✅ Permissions configured");
 
-  // 4. Deploy Refund
-  console.log("\n4️⃣  Deploying Refund...");
-  const Refund = await ethers.getContractFactory("Refund");
-  const refund = await Refund.deploy(carTokenAddress, walletAddress, ticketPaymentAddress, relayerAddress);
-  await refund.waitForDeployment();
-  const refundAddress = await refund.getAddress();
-  console.log("✅ Refund deployed at:", refundAddress);
-
-  // 5. Setup permissions (optional but recommended)
-  console.log("\n5️⃣  Setting up permissions...");
-  try {
-    console.log("Authorizing TicketPayment contract on Wallet...");
-    const tx1 = await wallet.setAuthorizedCaller(ticketPaymentAddress, true);
-    await tx1.wait();
-
-    console.log("Authorizing Refund contract on Wallet...");
-    const tx2 = await wallet.setAuthorizedCaller(refundAddress, true);
-    await tx2.wait();
-
-    console.log("✅ Permissions configured");
-  } catch (error) {
-    console.log("⚠️  Permission setup failed:", error);
-  }
-
-  // Output all addresses
   console.log("\n" + "=".repeat(70));
-  console.log("🎉 DEPLOYMENT COMPLETE!");
+  console.log("🎉 DEPLOYMENT COMPLETE! Thêm vào backend/.env:\n");
+  console.log(`TICKET_NFT_ADDRESS=${nftAddress}`);
+  console.log(`TICKET_MARKET_ADDRESS=${marketAddress}`);
+  console.log(`EVENTS_FROM_BLOCK=<block deploy, xem trên Etherscan>`);
   console.log("=".repeat(70));
-  console.log("\n📋 Contract Addresses (UPDATE backend/src/config/blockchain.config.ts):\n");
-  console.log(`export const CONTRACT_ADDRESSES = {`);
-  console.log(`    CAR_TOKEN: "${carTokenAddress}",`);
-  console.log(`    WALLET: "${walletAddress}",`);
-  console.log(`    TICKET_PAYMENT: "${ticketPaymentAddress}",`);
-  console.log(`    REFUND: "${refundAddress}",`);
-  console.log(`};`);
-  console.log("");
-
-  // Also output as environment variables format
-  console.log("📋 Or use as .env variables:\n");
-  console.log(`CAR_TOKEN_ADDRESS=${carTokenAddress}`);
-  console.log(`WALLET_ADDRESS=${walletAddress}`);
-  console.log(`TICKET_PAYMENT_ADDRESS=${ticketPaymentAddress}`);
-  console.log(`REFUND_ADDRESS=${refundAddress}`);
-  console.log(`RELAYER_ADDRESS=${relayerAddress}`);
-  console.log(`DEPLOYER_ADDRESS=${deployer.address}`);
-  console.log("");
-  console.log("=".repeat(70));
-  console.log("\n✨ Next steps:");
-  console.log("1. Copy the contract addresses above");
-  console.log("2. Update backend/src/config/blockchain.config.ts");
-  console.log("3. Update backend/.env");
-  console.log("4. Start backend: npm run dev");
-  console.log("5. Test API endpoints with curl or Postman");
 }
 
 main().catch((error) => {

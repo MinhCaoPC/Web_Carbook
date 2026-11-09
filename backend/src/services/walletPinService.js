@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const { db } = require('../config/firebase');
 const { sendOtpEmail } = require('../config/mailer');
+const { hashPassword: hashPin, verifyPassword } = require('../utils/passwordHash');
 
 const KHACHHANG_COLLECTION = 'KHACHHANG';
 const TAIKHOAN_COLLECTION = 'TAIKHOAN';
@@ -12,9 +13,9 @@ function httpError(message, statusCode) {
   return err;
 }
 
-function hashPin(pin) {
-  return crypto.createHash('sha256').update(String(pin)).digest('hex');
-}
+// PIN 6 số chỉ có 1 triệu khả năng nên ngoài băm có salt (scrypt) còn phải giới hạn số lần thử sai.
+const MAX_PIN_SAI = 5;
+const KHOA_PIN_MS = 15 * 60 * 1000;
 
 // Tìm TAIKHOAN của khách đang đăng nhập (KHACHHANG -> maTaiKhoan -> TAIKHOAN)
 async function layTaiKhoanCuaKhach(maKhachHang) {
@@ -46,7 +47,7 @@ async function setupPin(maKhachHang, maPin) {
     throw httpError('Tài khoản đã có mã PIN. Vui lòng dùng chức năng đổi mã PIN (xác thực qua email).', 403);
   }
 
-  await tkDoc.ref.update({ maPinVi: hashPin(maPin) });
+  await tkDoc.ref.update({ maPinVi: await hashPin(maPin), pinSai: 0, pinKhoaDen: null });
   return { message: 'Đặt mã PIN ví thành công.' };
 }
 
@@ -77,7 +78,7 @@ async function requestPinOtp(maKhachHang, email) {
   return { message: 'Mã OTP đã được gửi đến email của bạn.' };
 }
 
-// UPDATE (bước 2): xác thực OTP rồi lưu mã PIN mới (băm sha256, không lưu PIN thô)
+// UPDATE (bước 2): xác thực OTP rồi lưu mã PIN mới (băm scrypt có salt, không lưu PIN thô)
 async function confirmPin(maKhachHang, otp, maPin) {
   if (!otp || !maPin) throw httpError('Vui lòng nhập mã OTP và mã PIN mới.', 400);
   if (!/^\d{6}$/.test(String(maPin))) {
@@ -98,7 +99,9 @@ async function confirmPin(maKhachHang, otp, maPin) {
   }
 
   await tkDoc.ref.update({
-    maPinVi: hashPin(maPin),
+    maPinVi: await hashPin(maPin),
+    pinSai: 0,
+    pinKhoaDen: null,
     resetOtp: null,
     resetOtpExpires: null,
   });
@@ -114,9 +117,25 @@ async function verifyPin(maKhachHang, maPin) {
   if (!maPinViDaLuu) {
     throw httpError('Ví chưa đặt mã PIN. Vui lòng vào Ví CarbookPay để đặt mã PIN trước.', 400);
   }
-  if (!maPin || hashPin(maPin) !== maPinViDaLuu) {
+  const data = tkDoc.data();
+  if (data.pinKhoaDen && Date.now() < data.pinKhoaDen) {
+    throw httpError('Nhập sai mã PIN quá nhiều lần. Vui lòng thử lại sau ít phút hoặc đổi PIN qua email.', 429);
+  }
+
+  const kiemTra = maPin ? await verifyPassword(maPin, maPinViDaLuu) : { ok: false };
+  if (!kiemTra.ok) {
+    const soLanSai = (data.pinKhoaDen && Date.now() >= data.pinKhoaDen ? 0 : (data.pinSai || 0)) + 1;
+    await tkDoc.ref.update(soLanSai >= MAX_PIN_SAI
+      ? { pinSai: 0, pinKhoaDen: Date.now() + KHOA_PIN_MS }
+      : { pinSai: soLanSai });
     throw httpError('Mã PIN không đúng.', 400);
   }
+
+  // Đúng PIN: xóa bộ đếm sai; PIN lưu theo SHA-256 cũ thì băm lại bằng scrypt có salt
+  const capNhat = {};
+  if (data.pinSai || data.pinKhoaDen) { capNhat.pinSai = 0; capNhat.pinKhoaDen = null; }
+  if (kiemTra.needsUpgrade) capNhat.maPinVi = await hashPin(maPin);
+  if (Object.keys(capNhat).length) await tkDoc.ref.update(capNhat);
   return { hopLe: true };
 }
 

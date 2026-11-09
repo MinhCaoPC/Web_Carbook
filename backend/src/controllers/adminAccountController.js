@@ -94,7 +94,7 @@ exports.createAccount = async (req, res) => {
       loaiTaiKhoan, // KH, TX, AD
       trangThai: 'active',
       hinhThucDangNhap: 'Local',
-      password: hashPassword(DEFAULT_PASSWORD), // Mật khẩu mặc định đã băm SHA-256 — có thể làm luồng đổi pass sau
+      password: await hashPassword(DEFAULT_PASSWORD), // Mật khẩu mặc định (băm scrypt có salt) — có thể làm luồng đổi pass sau
       firstName: hoTen?.split(' ')[0] || '',
       lastName: hoTen?.split(' ').slice(1).join(' ') || '',
       phone: sdt || '',

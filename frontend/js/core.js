@@ -79,25 +79,28 @@ export function duration(a, b) {
   return m >= 60 ? `${Math.floor(m / 60)}h${m % 60 ? pad(m % 60) : ''}` : `${m} phút`;
 }
 export const shortAddr = (a) => (a && a.length > 14 ? `${a.slice(0, 8)}…${a.slice(-6)}` : a || '');
-export const etherscan = (type, v) => `https://sepolia.etherscan.io/${type}/${v}`;
+export const etherscan = (type, v, base = 'https://sepolia.etherscan.io') => `${base}/${type}/${v}`;
 export const initials = (name) => (String(name || '?').trim().split(/\s+/).slice(-1)[0][0] || '?').toUpperCase();
 
 // ---------- Phiên đăng nhập ----------
-const K_USER = 'current_user', K_KH = 'ma_khach_hang';
+const K_USER = 'current_user', K_KH = 'ma_khach_hang', K_TOKEN = 'auth_token';
 const BASE = window.CARBOOK_API ?? (location.port === '5050' || location.protocol === 'https:' ? '' : 'http://localhost:5050');
 export const session = {
-  get user() { try { return JSON.parse(localStorage.getItem(K_USER) || 'null'); } catch { return null; } },
+  // Không có token thì coi như chưa đăng nhập (phiên cũ trước khi có token buộc phải đăng nhập lại)
+  get token() { return localStorage.getItem(K_TOKEN) || ''; },
+  get user() { if (!this.token) return null; try { return JSON.parse(localStorage.getItem(K_USER) || 'null'); } catch { return null; } },
   get userId() { return this.user?.id?.toString() || ''; },
-  save(u) { localStorage.setItem(K_USER, JSON.stringify(u)); localStorage.removeItem(K_KH); },
-  update(patch) { this.save({ ...(this.user || {}), ...patch }); },
-  clear() { localStorage.removeItem(K_USER); localStorage.removeItem(K_KH); },
+  // token: chuỗi JWT backend trả về lúc đăng nhập; bỏ trống = giữ token hiện có (vd: cập nhật hồ sơ)
+  save(u, token) { localStorage.setItem(K_USER, JSON.stringify(u)); localStorage.removeItem(K_KH); if (token) localStorage.setItem(K_TOKEN, token); },
+  update(patch) { localStorage.setItem(K_USER, JSON.stringify({ ...(this.user || {}), ...patch })); },
+  clear() { localStorage.removeItem(K_USER); localStorage.removeItem(K_KH); localStorage.removeItem(K_TOKEN); },
   get maKH() { return localStorage.getItem(K_KH) || ''; },
   // Mã KHÁCH HÀNG (KHACHHANG) ≠ id tài khoản — mọi luồng đặt vé/thanh toán dùng mã này
   async ensureMaKH() {
     if (this.maKH) return this.maKH;
     if (!this.userId) return '';
     try {
-      const d = await api(`/api/khach-hang/theo-tai-khoan/${this.userId}`, { auth: false });
+      const d = await api(`/api/khach-hang/theo-tai-khoan/${this.userId}`);
       if (d.maKhachHang) localStorage.setItem(K_KH, d.maKhachHang);
       return d.maKhachHang || '';
     } catch { return ''; }
@@ -113,7 +116,7 @@ export async function api(path, { method = 'GET', body, query, auth = true } = {
   }
   const headers = {};
   if (body !== undefined) headers['Content-Type'] = 'application/json';
-  if (auth && session.maKH) headers['x-ma-khach-hang'] = session.maKH;
+  if (auth && session.token) headers.Authorization = `Bearer ${session.token}`;
   let res, data;
   try {
     res = await fetch(url, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
@@ -121,6 +124,12 @@ export async function api(path, { method = 'GET', body, query, auth = true } = {
     throw new Error('Không thể kết nối máy chủ. Hãy kiểm tra backend (cổng 5050) đang chạy.');
   }
   try { data = await res.json(); } catch { data = {}; }
+  // Token hết hạn/không hợp lệ -> xóa phiên và về trang đăng nhập (không áp dụng cho call công khai)
+  if (res.status === 401 && auth && session.token) {
+    session.clear();
+    location.hash = '#/login';
+    location.reload();
+  }
   if (!res.ok || data.success === false) {
     const err = new Error(data.message || `Yêu cầu thất bại (${res.status})`);
     err.status = res.status; err.data = data;

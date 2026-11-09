@@ -8,18 +8,14 @@ export class TokenService {
         private walletRepository: IWalletRepository
     ) {}
 
+    // Nạp tiền = cộng số dư ví nội trong một transaction Firestore (có dòng sổ cái đi kèm).
     async deposit(userWallet: string, amount: number) {
         try {
-            // Tối ưu tốc độ: đọc số dư sổ cái hiện tại, rồi GỬI LIỀN 2 giao dịch
-            // (mint token + cập nhật sổ cái Wallet) — chúng nhận nonce liên tiếp nên vào
-            // CÙNG 1 BLOCK, thời gian chờ giảm từ ~2 block (24-30s) còn ~1 block (12-15s).
-            const currentBalance = await this.walletRepository.getBalance(userWallet);
+            const exists = await this.walletRepository.walletExists(userWallet);
+            if (!exists) throw new Error("Wallet not found");
 
-            const mintPending = await this.tokenRepository.mintAsync(userWallet, amount);
-            const updatePending = await this.walletRepository.updateBalanceAsync(userWallet, currentBalance + amount);
-
-            await Promise.all([mintPending.confirm(), updatePending.confirm()]);
-            return { txHash: mintPending.txHash };
+            const result = await this.tokenRepository.mint(userWallet, amount);
+            return { txHash: result.txHash };
         } catch (error) {
             throw new Error(`Deposit failed: ${(error as Error).message}`);
         }
@@ -37,13 +33,8 @@ export class TokenService {
                 throw new Error("Số dư khả dụng không đủ để thực hiện giao dịch");
             }
 
-            // 3. Thực hiện burn token
-            const result = await this.tokenRepository.burn(userWallet, amount);
-
-            // 4. Đồng bộ số dư mới sang Wallet contract
-            const newBalance = await this.tokenRepository.getTokenBalance(userWallet);
-            await this.walletRepository.updateBalance(userWallet, newBalance);
-            return result;
+            // 3. Trừ số dư ví (transaction Firestore, tự kiểm tra lại số dư khả dụng)
+            return await this.tokenRepository.burn(userWallet, amount);
         } catch (error) {
             throw new Error((error as Error).message);
         }

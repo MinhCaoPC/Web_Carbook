@@ -126,7 +126,9 @@ export interface VeXe {
   tienGiam: number;
   thanhTien: number;
   maQR: string; // UNIQUE
-  trangThaiVe: 'GIU_CHO' | 'DA_TT' | 'HUY' | 'HOAN';
+  // PENDING: vé đang trong quá trình hủy + hoàn tiền on-chain (DA_TT -> PENDING -> HUY, hoặc quay lại DA_TT nếu hoàn tiền lỗi)
+  trangThaiVe: 'GIU_CHO' | 'DA_TT' | 'PENDING' | 'HUY' | 'HOAN';
+  maNhomDat?: string; // khóa thanh toán on-chain (TicketPayment) của cả nhóm vé đặt cùng lượt
   thoiGianDat: Timestamp;
 }
 

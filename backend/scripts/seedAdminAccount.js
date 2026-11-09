@@ -4,7 +4,7 @@
 //   node scripts/seedAdminAccount.js <email> [password] [firstName] [lastName]
 //   node scripts/seedAdminAccount.js admin@carbook.vn 123456 Admin Carbook
 //
-// Mật khẩu mặc định (nếu không truyền) là "123456", được băm SHA-256 trước khi lưu — không bao
+// Mật khẩu mặc định (nếu không truyền) là "123456", được băm scrypt (có salt) trước khi lưu — không bao
 // giờ lưu plaintext (xem backend/src/utils/passwordHash.js).
 
 const path = require('path');
@@ -42,7 +42,7 @@ async function main() {
     email,
     firstName,
     lastName,
-    password: hashPassword(password),
+    password: await hashPassword(password),
     hinhThucDangNhap: 'Local',
     loaiTaiKhoan: 'AD',
     trangThai: 'active',

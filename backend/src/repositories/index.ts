@@ -1,40 +1,33 @@
 // backend/src/repositories/index.ts
-import { WalletRepository } from "./blockchain/WalletRepository";
-import { TokenRepository } from "./blockchain/TokenRepository";
-import { PaymentRepository } from "./blockchain/PaymentRepository";
-import { RefundRepository } from "./blockchain/RefundRepository";
+// Ví/thanh toán/hoàn tiền chạy trên ví nội Firestore; blockchain chỉ dùng cho vé NFT (xem TicketNftRepository).
+import {
+    FirestoreWalletRepository,
+    FirestorePaymentRepository,
+    FirestoreRefundRepository,
+} from "./firestore/FirestoreWalletRepository";
 
 export class RepositoryFactory {
-    private static walletRepository: WalletRepository;
-    private static tokenRepository: TokenRepository;
-    private static paymentRepository: PaymentRepository;
-    private static refundRepository: RefundRepository;
+    private static walletRepository: FirestoreWalletRepository;
+    private static paymentRepository: FirestorePaymentRepository;
+    private static refundRepository: FirestoreRefundRepository;
 
+    // Ví và "token" (nạp/rút) dùng chung một kho số dư nên cùng một đối tượng.
     static getWalletRepository() {
-        if (!this.walletRepository) {
-            this.walletRepository = new WalletRepository();
-        }
+        if (!this.walletRepository) this.walletRepository = new FirestoreWalletRepository();
         return this.walletRepository;
     }
 
     static getTokenRepository() {
-        if (!this.tokenRepository) {
-            this.tokenRepository = new TokenRepository();
-        }
-        return this.tokenRepository;
+        return this.getWalletRepository();
     }
 
     static getPaymentRepository() {
-        if (!this.paymentRepository) {
-            this.paymentRepository = new PaymentRepository();
-        }
+        if (!this.paymentRepository) this.paymentRepository = new FirestorePaymentRepository();
         return this.paymentRepository;
     }
 
     static getRefundRepository() {
-        if (!this.refundRepository) {
-            this.refundRepository = new RefundRepository();
-        }
+        if (!this.refundRepository) this.refundRepository = new FirestoreRefundRepository();
         return this.refundRepository;
     }
 }
