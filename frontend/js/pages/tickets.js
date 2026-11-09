@@ -1,6 +1,7 @@
 import { api, session, icon, esc, money, fmtTime, fmtDate, fmtDateTime, duration, toastErr, toastOk, setBusy, confirmBox, renderQR, emptyHTML, errorHTML, loadingHTML } from '../core.js';
 import { go, setUnread, refreshUnread } from '../app.js';
 import { normBooking } from '../model.js';
+import { sellDialog, cancelListing } from './market.js';
 
 const backBtn = (href) => `<a class="back" href="#${href}" aria-label="Quay lại">${icon('back')}</a>`;
 
@@ -38,19 +39,29 @@ export async function history(ctx) {
     list.innerHTML = `<div class="grid cols-2">${arr.map((t) => {
       const st = ST[t.status] || ST.completed;
       return `<div class="card">
-        <div class="row between"><div class="row"><span class="ico">${icon('bus')}</span><div><b>${esc(t.company || 'CARBOOK')}</b><div class="hint">${esc(t.date)} · ${esc(t.time)}</div></div></div><span class="badge ${st.cls}">${st.label}</span></div>
+        <div class="row between"><div class="row"><span class="ico">${icon('bus')}</span><div><b>${esc(t.company || 'CARBOOK')}</b><div class="hint">${esc(t.date)} · ${esc(t.time)}</div></div></div><div class="row">${t.nftTokenId ? `<span class="badge gray" title="Vé NFT trên blockchain">NFT #${t.nftTokenId}</span>` : ''}${t.dangRaoBan ? `<span class="badge warn">Đang rao ${esc(String(t.giaRaoBan ? t.giaRaoBan.toLocaleString('vi-VN') + 'đ' : ''))}</span>` : ''}<span class="badge ${st.cls}">${st.label}</span></div></div>
         <div class="mt row"><div class="grow"><div class="row"><span class="muted">${icon('pin', 'sm')}</span><b>${esc(t.from)}</b></div><div class="row mt-s"><span style="color:var(--accent)">${icon('pin', 'sm')}</span><b>${esc(t.to)}</b></div></div>
           <div style="text-align:right"><div class="hint">Ghế</div><b>${esc(t.seat)}</b></div></div>
         <div class="trip-foot"><span class="price">${esc(t.price)}</span>
           <div class="row">
             <a class="btn sm" href="#/ticket?id=${encodeURIComponent(t.id)}">${icon('ticket', 'sm')} Xem vé</a>
-            ${t.status === 'upcoming' ? `<button class="btn sm danger-o" data-cancel="${esc(t.id)}">Hủy vé</button>` : `<a class="btn sm ghost" href="#/?from=${encodeURIComponent(t.from)}&to=${encodeURIComponent(t.to)}">Đặt lại</a>`}
+            ${t.status === 'upcoming' && t.dangRaoBan ? `<button class="btn sm" data-unsell="${esc(t.id)}">Huỷ rao bán</button>`
+              : t.status === 'upcoming' ? `${t.nftStatus === 'DA_MINT' ? `<button class="btn sm" data-sell="${esc(t.id)}">${icon('swap', 'sm')} Rao bán</button>` : ''}<button class="btn sm danger-o" data-cancel="${esc(t.id)}">Hủy vé</button>`
+              : `<a class="btn sm ghost" href="#/?from=${encodeURIComponent(t.from)}&to=${encodeURIComponent(t.to)}">Đặt lại</a>`}
           </div></div></div>`;
     }).join('')}</div>`;
+    list.querySelectorAll('[data-sell]').forEach((b) => b.addEventListener('click', async () => {
+      const t = tickets.find((x) => x.id === b.dataset.sell);
+      if (t && (await sellDialog(t))) await load();
+    }));
+    list.querySelectorAll('[data-unsell]').forEach((b) => b.addEventListener('click', async () => {
+      setBusy(b, true);
+      try { if (await cancelListing(b.dataset.unsell)) await load(); else setBusy(b, false); } catch (e) { toastErr(e); setBusy(b, false); }
+    }));
     list.querySelectorAll('[data-cancel]').forEach((b) => b.addEventListener('click', async () => {
       const ok = await confirmBox({
         title: 'Xác nhận hủy vé', danger: true, ok: 'Hủy vé', cancel: 'Không',
-        message: 'Bạn có chắc chắn muốn hủy vé này không?\n\n• Phải thực hiện trước giờ xe chạy ít nhất 4 tiếng.\n• Phí hủy vé là 30% giá vé (hoàn lại 70% vào ví CarbookPay).',
+        message: 'Bạn có chắc chắn muốn hủy vé này không?\n\n• Phải thực hiện trước giờ xe chạy ít nhất 4 tiếng.\n• Phí hủy vé là 30% giá vé (hoàn lại 70% vào ví CarbookPay).\n• NFT của vé sẽ bị đốt.',
       });
       if (!ok) return;
       setBusy(b, true);
@@ -118,8 +129,12 @@ export async function ticket(ctx) {
           <div class="kv"><span>Giá vé</span><span>${money(goc || tien)}</span></div>
           ${giam ? `<div class="kv"><span>Giảm giá</span><span>-${money(giam)}</span></div>` : ''}
           <div class="kv"><span>Tổng cộng</span><span class="money" style="color:var(--primary)">${money(tien)}</span></div>
-          ${info.hoaDon.map((h) => `<div class="kv"><span>${h.phuongThucTT === 'VNPAY' ? 'VNPay' : 'Ví CarbookPay'}</span><span>${h.txHash ? `<a target="_blank" rel="noopener" href="https://sepolia.etherscan.io/tx/${esc(h.txHash)}">Tx on-chain ${icon('ext', 'sm')}</a>` : esc(h.maHoaDon)}</span></div>`).join('')}
+          ${info.hoaDon.map((h) => `<div class="kv"><span>${h.phuongThucTT === 'VNPAY' ? 'VNPay' : 'Ví CarbookPay'}</span><span class="mono">${esc(h.txHash || h.maHoaDon)}</span></div>`).join('')}
         </div>
+        ${info.ve.some((v) => v.nftTokenId) ? `<div class="card"><h3>Vé NFT</h3>
+          ${info.ve.filter((v) => v.nftTokenId).map((v) => `<div class="kv"><span>Ghế ${esc(v.maGhe)}</span><span><b>NFT #${v.nftTokenId}</b>${v.dangRaoBan ? ' · đang rao bán' : ''}</span></div>`).join('')}
+          <a class="btn ghost block mt-s" href="#/blockchain">${icon('shield', 'sm')} Kiểm chứng trên blockchain</a></div>`
+          : (paid.length ? `<div class="info-msg">Vé đang được phát hành NFT, vui lòng tải lại sau ít phút.</div>` : '')}
         <div class="info-msg">Vui lòng có mặt tại điểm đón ít nhất 30 phút trước giờ khởi hành.</div>
       </aside>
     </div>`;

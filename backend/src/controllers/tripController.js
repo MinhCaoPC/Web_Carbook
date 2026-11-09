@@ -1,6 +1,7 @@
 const { db } = require('../config/firebase');
 const { ngayHopLe, layDanhSachNgayChoPhep } = require('../utils/schedule');
 const { luuTimKiem } = require('../services/searchHistoryService');
+const { laLoTrinhMienTay, chonChuyenMoiTuyen } = require('../utils/mekong');
 
 const LOTRINH_COLLECTION = 'LOTRINH';
 const CHUYENXE_COLLECTION = 'CHUYENXE';
@@ -38,7 +39,8 @@ async function layLoTrinhHoatDong() {
 
   const snapshot = await db.collection(LOTRINH_COLLECTION).where('trangThai', '==', 'HoatDong').get();
   lotrinhCache = {
-    data: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+    // Chỉ phục vụ khu vực miền Tây (xem utils/mekong.js)
+    data: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })).filter(laLoTrinhMienTay),
     expireAt: now + 5 * 60 * 1000,
   };
   return lotrinhCache.data;
@@ -80,7 +82,8 @@ async function timChuyenTheoNgay(from, to, date) {
     snapshot.forEach((doc) => chuyenXeDocs.push({ id: doc.id, ...doc.data() }));
   }
 
-  const activeTrips = chuyenXeDocs.filter((trip) => trip.trangThai !== 'Huy');
+  // Giới hạn số chuyến mỗi tuyến/ngày (khớp lịch do tripScheduleGenerationService sinh)
+  const activeTrips = chonChuyenMoiTuyen(chuyenXeDocs.filter((trip) => trip.trangThai !== 'Huy'));
 
   // Đọc CHUYENXE_NGAY cho đúng ngày được chọn (đã sinh sẵn bằng script)
   const chuyenXeNgayById = {};
@@ -165,7 +168,7 @@ async function timChuyenTheoNgay(from, to, date) {
 // - soLuongVe (tùy chọn, mặc định 1): mỗi chuyến trả thêm cờ `duVe` = còn đủ ghế trống cho số vé cần.
 // - ngayVe (tùy chọn, khứ hồi): trả thêm `tripsVe` là các chuyến chiều về (đảo điểm đi/đến).
 // - Cả ngày đi lẫn ngày về đều phải nằm trong cửa sổ ngày đã sinh lịch trình (ngayHopLe).
-// - Nếu request có header x-ma-khach-hang (đã đăng nhập) thì lưu vào lịch sử "Tìm kiếm gần đây".
+// - Nếu request có token đăng nhập hợp lệ thì lưu vào lịch sử "Tìm kiếm gần đây".
 exports.searchTrips = async (req, res) => {
   try {
     const { from, to, date, ngayVe } = req.query;
@@ -201,7 +204,7 @@ exports.searchTrips = async (req, res) => {
     const tripsVe = ngayVe ? (await timChuyenTheoNgay(to, from, ngayVe)).map(ganCoDuVe) : undefined;
 
     // Lưu lịch sử tìm kiếm nếu đã đăng nhập — không chặn/không làm hỏng kết quả khi lưu lỗi
-    const maKhachHang = req.headers['x-ma-khach-hang'];
+    const maKhachHang = req.maKhachHangDangNhap;
     if (maKhachHang) {
       luuTimKiem(maKhachHang, { diemDi: from, diemDen: to, ngayDi: date, ngayVe: ngayVe || null, soLuongVe }).catch(
         (err) => console.error('luuTimKiem error:', err)

@@ -13,6 +13,7 @@
 const { db } = require('../config/firebase');
 const { Timestamp } = require('firebase-admin/firestore');
 const { layDanhSachNgayChoPhep, ghepNgayGio } = require('../utils/schedule');
+const { laLoTrinhMienTay, chonChuyenMoiTuyen } = require('../utils/mekong');
 
 const BATCH_SIZE = 400;
 
@@ -56,10 +57,19 @@ async function generateDailySchedules({ xoaCaLich = false } = {}) {
   console.log(`[Lịch chuyến xe] Cửa sổ ${danhSachNgay.length} ngày: ${danhSachNgay.join(', ')}`);
 
   // 1. Đọc chuyến mẫu + xe
-  const [chuyenXeSnap, xeSnap] = await Promise.all([
+  const [chuyenXeSnapGoc, xeSnap, loTrinhSnap] = await Promise.all([
     db.collection('CHUYENXE').where('trangThai', '!=', 'Huy').get(),
     db.collection('XE').get(),
+    db.collection('LOTRINH').where('trangThai', '==', 'HoatDong').get(),
   ]);
+  // Chỉ sinh lịch cho tuyến miền Tây đang hoạt động, mỗi tuyến tối đa N chuyến/ngày (utils/mekong.js)
+  const loTrinhHopLe = new Set(loTrinhSnap.docs.filter((d) => laLoTrinhMienTay(d.data())).map((d) => d.id));
+  const chuyenDuocChon = new Set(
+    chonChuyenMoiTuyen(
+      chuyenXeSnapGoc.docs.filter((d) => loTrinhHopLe.has(d.data().maLoTrinh)).map((d) => ({ id: d.id, ...d.data() }))
+    ).map((t) => t.id)
+  );
+  const chuyenXeSnap = { size: chuyenDuocChon.size, docs: chuyenXeSnapGoc.docs.filter((d) => chuyenDuocChon.has(d.id)) };
   const xeById = {};
   xeSnap.forEach((doc) => (xeById[doc.id] = doc.data()));
   console.log(`[Lịch chuyến xe] ${chuyenXeSnap.size} chuyến mẫu, ${xeSnap.size} xe.`);

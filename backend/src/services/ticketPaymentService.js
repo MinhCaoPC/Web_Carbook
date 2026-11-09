@@ -58,11 +58,10 @@ async function layViCuaKhachHang(maKhachHang) {
   return walletAddress;
 }
 
-// Trừ tiền ví blockchain theo Luồng 3: đọc số dư thật từ Smart Contract -> khóa số dư
-// (chống double spending) -> Relayer ký & trả gas gọi Payment() -> đồng bộ balance cache.
-// Ví không đủ tiền / chưa kích hoạt sẽ throw lỗi tiếng Việt rõ ràng, vé vẫn GIU_CHO để thử lại.
-async function truTienViBlockchain(maNhomDat, walletAddress, tongTien) {
-  // Lazy require: chỉ nạp tầng blockchain khi thật sự thanh toán bằng ví
+// Trừ tiền ví nội (Firestore): một transaction kiểm tra số dư + trừ tiền + ghi nhận thanh toán + dòng sổ cái,
+// nên hai request đồng thời không tiêu trùng một khoản tiền. Ví không đủ tiền / chưa kích hoạt sẽ throw
+// lỗi tiếng Việt rõ ràng, vé vẫn GIU_CHO để thử lại.
+async function truTienViNoi(maNhomDat, walletAddress, tongTien) {
   const { RepositoryFactory } = require('../repositories');
   const { PaymentService } = require('./paymentService');
   const paymentService = new PaymentService(
@@ -71,35 +70,28 @@ async function truTienViBlockchain(maNhomDat, walletAddress, tongTien) {
   );
 
   try {
-    const ketQua = await paymentService.payForTicket(maNhomDat, walletAddress, tongTien);
-
-    // Đồng bộ token ERC-20 với sổ cái: đốt CAR từ ĐÚNG VÍ USER (owner của CARToken có quyền
-    // burn(from) — không cần user ký/approve). Chạy nền để không cộng thêm thời gian chờ;
-    // sổ cái Wallet.sol vẫn là nguồn sự thật nên nếu burn lỗi chỉ cần cảnh báo + đối soát sau.
-    (async () => {
-      try {
-        await RepositoryFactory.getTokenRepository().burn(walletAddress, tongTien);
-        console.log(`✓ Đã burn ${tongTien} CAR từ ví user ${walletAddress} (thanh toán ${maNhomDat})`);
-      } catch (burnErr) {
-        console.error(`⚠️ Burn CAR sau thanh toán thất bại (ví ${walletAddress}, sổ cái vẫn đúng):`, burnErr.message);
-      }
-    })();
-
-    return ketQua;
+    return await paymentService.payForTicket(maNhomDat, walletAddress, tongTien);
   } catch (error) {
     const message = (error && error.message) || '';
     if (message.includes('Insufficient balance')) {
       throw httpError('Thanh toán không thành công: số dư ví CarbookPay không đủ. Vui lòng nạp thêm tiền vào ví.', 400);
     }
     if (message.includes('Wallet not found')) {
-      throw httpError('Ví CarbookPay chưa được đăng ký trên hệ thống blockchain.', 400);
+      throw httpError('Không tìm thấy ví CarbookPay của bạn. Vui lòng kích hoạt ví trước.', 400);
     }
-    if (message.includes('Wallet busy')) {
-      throw httpError('Ví đang có giao dịch khác đang xử lý. Vui lòng thử lại sau vài giây.', 409);
+    if (message.includes('Payment already exists')) {
+      throw httpError('Nhóm vé này đã được thanh toán rồi.', 409);
     }
-    console.error('❌ Thanh toán blockchain thất bại:', message);
+    console.error('❌ Thanh toán ví nội thất bại:', message);
     throw httpError('Thanh toán qua ví CarbookPay thất bại. Vui lòng thử lại sau.', 502);
   }
+}
+
+// Sau khi vé thanh toán xong: mint NFT ở nền (không làm chậm thanh toán). Lỗi chỉ ghi nhận lên vé
+// (nftStatus = MINT_LOI) để thử lại sau — vé vẫn hợp lệ, không ảnh hưởng tiền.
+function mintNftNen(danhSachMaDatVe) {
+  const nftService = require('./ticketNftService');
+  nftService.mintNhomVe(danhSachMaDatVe).catch((err) => console.error('Lỗi mint NFT nền:', err.message));
 }
 
 // Chốt vé trong 1 transaction: assert còn hạn giữ, đổi trạng thái VEXE/GHEXE, sinh HOADON + maQR.
@@ -165,7 +157,7 @@ async function hoanTatVe({ maKhachHang, danhSachMaDatVe, phuongThucTT, txHash })
 
 // Thanh toán nhóm vé đang giữ chỗ.
 // - phuongThucTT = 'CARBOOKPAY' (mặc định): yêu cầu MÃ PIN ví đúng, rồi trừ tiền THẬT từ ví
-//   blockchain trước khi chốt vé; ví không đủ tiền -> 400 và vé vẫn ở GIU_CHO để thử lại.
+//   nội (Firestore) trước khi chốt vé; ví không đủ tiền -> 400 và vé vẫn ở GIU_CHO để thử lại.
 // - Phương thức khác: chỉ chốt vé (giữ hành vi cũ cho các luồng test/không dùng ví).
 async function thanhToan({ maKhachHang, danhSachMaDatVe, phuongThucTT = 'CARBOOKPAY', maPin }) {
   if (!maKhachHang || !Array.isArray(danhSachMaDatVe) || danhSachMaDatVe.length === 0) {
@@ -179,18 +171,19 @@ async function thanhToan({ maKhachHang, danhSachMaDatVe, phuongThucTT = 'CARBOOK
     const { verifyPin } = require('./walletPinService');
     await verifyPin(maKhachHang, maPin);
 
-    // Kiểm tra vé + tính tiền trước khi động vào blockchain
+    // Kiểm tra vé + tính tiền trước khi trừ tiền
     const { tongTien, maNhomDat } = await kiemTraNhomVe(maKhachHang, danhSachMaDatVe);
     const walletAddress = await layViCuaKhachHang(maKhachHang);
 
-    const ketQuaChain = await truTienViBlockchain(maNhomDat, walletAddress, tongTien);
-    txHash = ketQuaChain.txHash;
-    console.log(`✓ Đã trừ ${tongTien}đ từ ví ${walletAddress} cho nhóm vé ${maNhomDat}. Tx: ${txHash}`);
+    const ketQuaVi = await truTienViNoi(maNhomDat, walletAddress, tongTien);
+    txHash = ketQuaVi.txHash; // mã giao dịch trong sổ cái ví
+    console.log(`✓ Đã trừ ${tongTien}đ từ ví ${walletAddress} cho nhóm vé ${maNhomDat}. GD: ${txHash}`);
   }
 
   try {
     const ketQua = await hoanTatVe({ maKhachHang, danhSachMaDatVe, phuongThucTT, txHash });
-    
+    mintNftNen(danhSachMaDatVe);
+
     // Gửi thông báo thành công
     const notificationService = require('./notificationService');
     notificationService.createBookingSuccessNotification(maKhachHang, danhSachMaDatVe).catch(err => {
@@ -200,7 +193,7 @@ async function thanhToan({ maKhachHang, danhSachMaDatVe, phuongThucTT = 'CARBOOK
     return ketQua;
   } catch (error) {
     if (txHash) {
-      // Tiền đã trừ on-chain nhưng chốt vé thất bại (hiếm: hết hạn giữ đúng lúc thanh toán)
+      // Tiền đã trừ khỏi ví nhưng chốt vé thất bại (hiếm: hết hạn giữ đúng lúc thanh toán)
       // -> ghi nhận để hoàn tiền thủ công/tự động, không nuốt lỗi.
       console.error(`❌ Đã trừ tiền (tx ${txHash}) nhưng chốt vé thất bại — cần hoàn tiền cho nhóm vé:`, danhSachMaDatVe.join(', '));
       await db.collection('GIAODICH_CANXULY').doc(`GD${Date.now()}`).set({
@@ -285,6 +278,7 @@ async function chotVeChoDonVnpay(order, vnpTransactionNo) {
       phuongThucTT: 'VNPAY',
       txHash: vnpTransactionNo ? `VNPAY-${vnpTransactionNo}` : null,
     });
+    mintNftNen(order.danhSachMaDatVe);
     await db.collection(DON_TT_VE_COLLECTION).doc(order.orderId).update({
       status: 'SUCCESS',
       vnpTransactionNo: vnpTransactionNo || null,

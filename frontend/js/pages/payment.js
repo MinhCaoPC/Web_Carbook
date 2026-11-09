@@ -25,8 +25,8 @@ export async function payment(ctx) {
   // Số dư ví (để cảnh báo thiếu tiền)
   let balance = null;
   try {
-    const w = await api(`/api/wallet/userId/${session.userId}`, { auth: false });
-    if (w.walletAddress && !/^0x0+$/.test(w.walletAddress)) balance = Number((await api(`/api/wallet/balance/${w.walletAddress}`, { auth: false })).balance) || 0;
+    const w = await api(`/api/wallet/userId/${session.userId}`);
+    if (w.walletAddress && !/^0x0+$/.test(w.walletAddress)) balance = Number((await api(`/api/wallet/balance/${w.walletAddress}`)).balance) || 0;
   } catch { /* chưa có ví */ }
 
   const total = info.tongTien + info.phiThanhToan;
@@ -59,7 +59,7 @@ export async function payment(ctx) {
           <div class="stack">
             <label class="method on" data-m="CARBOOKPAY"><input type="radio" name="m" checked>
               <span class="ico">${icon('wallet')}</span>
-              <div class="grow"><b>Ví CarbookPay</b><div class="hint">Trừ token CAR trong ví — xác nhận bằng mã PIN</div>
+              <div class="grow"><b>Ví CarbookPay</b><div class="hint">Trừ tiền trong ví — xác nhận bằng mã PIN</div>
                 ${balance !== null ? `<div class="hint" style="margin-top:2px">Số dư: <b>${money(balance)}</b>${balance < total ? ' · <span style="color:var(--danger)">không đủ</span>' : ''}</div>` : `<div class="hint" style="margin-top:2px;color:var(--warn)">Bạn chưa kích hoạt ví</div>`}</div></label>
             <label class="method" data-m="VNPAY"><input type="radio" name="m">
               <span class="ico green">${icon('card')}</span>
@@ -118,7 +118,7 @@ export async function payment(ctx) {
     } catch (e) { return toastErr(e); }
     const maPin = await pinBox({ title: 'Nhập mã PIN ví', desc: `Xác nhận thanh toán ${money(total)}` });
     if (!maPin) return;
-    setBusy(payBtn, true, 'Đang thanh toán trên blockchain…');
+    setBusy(payBtn, true, 'Đang thanh toán…');
     try {
       const r = await api('/api/thanh-toan', { method: 'POST', body: { maKhachHang: session.maKH, danhSachMaDatVe: ids, phuongThucTT: 'CARBOOKPAY', maPin } });
       paid = true;
@@ -148,7 +148,8 @@ export async function result(ctx) {
         <div class="kv"><span>Khởi hành</span><span>${fmtDateTime(info.xuatPhat)}</span></div>
         <div class="kv"><span>Ghế</span><span>${esc(info.ghe.join(', '))}</span></div>` : ''}
       ${hd ? `<div class="kv"><span>Phương thức</span><span>${hd.phuongThucTT === 'VNPAY' ? 'VNPay' : 'Ví CarbookPay'}</span></div>
-        ${hd.txHash ? `<div class="kv"><span>Giao dịch on-chain</span><span><a target="_blank" rel="noopener" href="https://sepolia.etherscan.io/tx/${esc(hd.txHash)}">Xem trên Etherscan ${icon('ext', 'sm')}</a></span></div>` : ''}` : ''}
+        ${hd.txHash ? `<div class="kv"><span>Mã giao dịch</span><span class="mono">${esc(hd.txHash)}</span></div>` : ''}` : ''}
+      <div class="info-msg mt-s">Vé của bạn đang được phát hành dưới dạng <b>NFT</b> trên blockchain. Xem trong mục "Vé của tôi".</div>
     </div>
     <div class="stack mt">
       <a class="btn primary lg block" href="#/ticket?ids=${encodeURIComponent(ids.join(','))}">${icon('ticket')} Xem vé lên xe</a>
@@ -176,7 +177,7 @@ export async function vnpayDone(ctx) {
     try {
       const r = isTicket
         ? await api('/api/thanh-toan/vnpay-reconcile', { method: 'POST', body: { orderId: pending.orderId } })
-        : await api('/api/token/deposit/reconcile', { method: 'POST', body: { orderId: pending.orderId }, auth: false });
+        : await api('/api/token/deposit/reconcile', { method: 'POST', body: { orderId: pending.orderId } });
       status = r.status || 'PENDING';
       if (status === 'SUCCESS' || status === 'FAILED') break;
     } catch { /* thử lại */ }
@@ -189,7 +190,7 @@ export async function vnpayDone(ctx) {
   if (status === 'SUCCESS') {
     if (isTicket) return go(`/payment-result?ids=${encodeURIComponent(pending.ids.join(','))}`, { replace: true });
     ctx.el.innerHTML = `<div class="success-hero"><div class="tick">${icon('check')}</div><h1>Nạp tiền thành công!</h1>
-      <p class="muted mt-s">Token CAR đã được cộng vào ví CarbookPay của bạn.</p></div>
+      <p class="muted mt-s">Tiền đã được cộng vào ví CarbookPay của bạn.</p></div>
       <div class="card mt"><div class="kv"><span>Số tiền</span><span class="money">${money(pending.amount)}</span></div>
       <div class="kv"><span>Mã giao dịch</span><span class="mono">${esc(pending.orderId)}</span></div></div>
       <div class="stack mt"><a class="btn primary lg block" href="#/wallet">Về ví CarbookPay</a></div>`;

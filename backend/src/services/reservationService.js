@@ -347,6 +347,12 @@ async function kiemTraThongTin(danhSachMaDatVe, { maskThongTin = true, maKhachHa
       giaVeGoc: ve.giaVeGoc || 0,
       tienGiam: ve.tienGiam || 0,
       thanhTien: ve.thanhTien || 0,
+      // Vé NFT (chứng nhận sở hữu trên blockchain)
+      nftTokenId: ve.nftTokenId || null,
+      nftStatus: ve.nftStatus || null,
+      nftTxHash: ve.nftTxHash || null,
+      dangRaoBan: !!ve.dangRaoBan,
+      giaRaoBan: ve.giaRaoBan || null,
     })),
     diemDon,
     danhSachDiemDonKhaDung,

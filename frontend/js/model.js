@@ -16,7 +16,7 @@ export function normBooking(j) {
     tenXe: cx.tenXe || '', bienSoXe: cx.bienSoXe || '',
     hoTen: hk.hoTen || '', sdt: hk.sdt || '', email: hk.email || '', cmnd: hk.cmnd || '',
     ghe: j.danhSachGhe || [],
-    ve: (j.danhSachVe || []).map((v) => ({ maDatVe: v.maDatVe, maGhe: v.maGhe, maQR: v.maQR, trangThai: v.trangThaiVe, giaGoc: +v.giaVeGoc || 0, tienGiam: +v.tienGiam || 0, thanhTien: +v.thanhTien || 0 })),
+    ve: (j.danhSachVe || []).map((v) => ({ maDatVe: v.maDatVe, maGhe: v.maGhe, maQR: v.maQR, trangThai: v.trangThaiVe, giaGoc: +v.giaVeGoc || 0, tienGiam: +v.tienGiam || 0, thanhTien: +v.thanhTien || 0, nftTokenId: v.nftTokenId || null, nftStatus: v.nftStatus || null, nftTxHash: v.nftTxHash || null, dangRaoBan: !!v.dangRaoBan })),
     hoaDon: (j.danhSachHoaDon || []).map((h) => ({ ...h, tongTien: +h.tongTien || 0, ngayThanhToan: h.ngayThanhToan ? toDate(h.ngayThanhToan) : null })),
     diemDon: point(j.diemDon), diemTra: point(j.diemTra),
     dsDiemDon: (j.danhSachDiemDonKhaDung || []).map(point),

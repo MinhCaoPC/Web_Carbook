@@ -24,11 +24,6 @@ export interface IPaymentRepository {
     }>;
 
     /**
-     * Hủy thanh toán (rollback khi thất bại)
-     */
-    cancelPayment(ticketId: string): Promise<{ txHash: string }>;
-
-    /**
      * Đối chiếu lịch sử thanh toán trực tiếp từ event on-chain (PaymentSuccess/PaymentFailed)
      * thay vì đọc bản ghi mirror trong Firestore — không thể lệch vì đọc thẳng sổ cái.
      */

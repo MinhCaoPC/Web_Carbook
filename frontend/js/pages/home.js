@@ -13,7 +13,7 @@ export async function home(ctx) {
     <section class="hero">
       <div class="hello">${greeting()},</div>
       <h1>${esc(user.firstName || user.fullName || 'bạn')} 👋<br class="mobile-br"> Hôm nay bạn đi đâu?</h1>
-      <p>Đặt vé xe liên tỉnh nhanh chóng, thanh toán an toàn bằng ví CarbookPay trên blockchain.</p>
+      <p>Đặt vé xe khách miền Tây nhanh chóng, thanh toán bằng ví CarbookPay — mỗi vé là một NFT của riêng bạn.</p>
       <div class="hero-wallet" id="hero-wallet"><div class="skel" style="width:160px;height:40px"></div></div>
     </section>
 
@@ -41,15 +41,15 @@ export async function home(ctx) {
     <div class="mt-l grid cols-4 qa-grid">
       <a class="qa" href="#/history"><span class="ico">${icon('ticket')}</span>Vé của tôi</a>
       <a class="qa" href="#/wallet"><span class="ico green">${icon('wallet')}</span>Ví CarbookPay</a>
-      <a class="qa" href="#/blockchain"><span class="ico warn">${icon('hub')}</span>Minh bạch on-chain</a>
+      <a class="qa" href="#/market"><span class="ico warn">${icon('swap')}</span>Chợ vé NFT</a>
       <a class="qa" href="#/support"><span class="ico gray">${icon('headset')}</span>Hỗ trợ</a>
     </div>
 
     <div class="mt-l"><div class="sec-title">Vì sao chọn CARBOOK</div>
       <div class="grid cols-3">
-        <div class="card feature"><span class="ico">${icon('shield')}</span><div><h4>Thanh toán bằng smart contract</h4><p>Mỗi giao dịch thanh toán và hoàn tiền được ghi lại trên blockchain, tra cứu công khai.</p></div></div>
-        <div class="card feature"><span class="ico green">${icon('bolt')}</span><div><h4>Không phí gas</h4><p>Relayer trả phí mạng thay bạn — chỉ cần có số dư token CAR trong ví.</p></div></div>
-        <div class="card feature"><span class="ico warn">${icon('refresh')}</span><div><h4>Hoàn tiền tự động</h4><p>Hủy vé trước giờ chạy 4 tiếng, hoàn 70% giá vé về ví ngay lập tức.</p></div></div>
+        <div class="card feature"><span class="ico">${icon('ticket')}</span><div><h4>Vé là NFT, như vé concert</h4><p>Mỗi vé đã thanh toán được phát hành thành một NFT trên blockchain — chống vé giả, kiểm chứng công khai.</p></div></div>
+        <div class="card feature"><span class="ico green">${icon('swap')}</span><div><h4>Bán lại vé an toàn</h4><p>Không đi được? Rao bán trên chợ vé với giá tối đa 110% giá gốc — chống phe vé, QR mới cho người mua.</p></div></div>
+        <div class="card feature"><span class="ico warn">${icon('refresh')}</span><div><h4>Hoàn tiền tự động</h4><p>Hủy vé trước giờ chạy 4 tiếng, hoàn 70% giá vé về ví CarbookPay ngay lập tức.</p></div></div>
       </div>
     </div>`;
 
@@ -101,11 +101,11 @@ export async function home(ctx) {
 async function loadWalletMini(ctx) {
   const box = ctx.el.querySelector('#hero-wallet');
   try {
-    const d = await api(`/api/wallet/userId/${session.userId}`, { auth: false });
+    const d = await api(`/api/wallet/userId/${session.userId}`);
     const addr = d.walletAddress;
     if (!addr || /^0x0+$/.test(addr)) throw new Error('none');
-    api('/api/token/deposit/reconcile-pending', { method: 'POST', body: { userWallet: addr }, auth: false }).catch(() => {});
-    const b = await api(`/api/wallet/balance/${addr}`, { auth: false });
+    api('/api/token/deposit/reconcile-pending', { method: 'POST', body: { userWallet: addr } }).catch(() => {});
+    const b = await api(`/api/wallet/balance/${addr}`);
     if (!ctx.isCurrent()) return;
     box.innerHTML = `<span class="ico" style="background:rgba(255,255,255,.18);color:#fff">${icon('wallet')}</span>
       <div><small>Số dư ví CarbookPay</small><div class="bal">${money(b.balance)}</div></div>

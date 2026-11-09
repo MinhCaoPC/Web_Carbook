@@ -5,10 +5,14 @@
 
 export interface IRefundRepository {
     /**
-     * Hoàn tiền cho user
+     * Hoàn tiền cho user. Contract chỉ chấp nhận nếu paymentId là một thanh toán thật đã SUCCESS
+     * của đúng ví này và tổng hoàn chưa vượt số đã trả.
+     * @param paymentId khóa thanh toán gốc (maNhomDat)
+     * @param refundId  mã từng vé được hoàn (maDatVe), duy nhất
      */
     refundTicket(
-        ticketId: string,
+        paymentId: string,
+        refundId: string,
         userWallet: string,
         amount: number
     ): Promise<{ txHash: string; status: string }>;
@@ -16,8 +20,9 @@ export interface IRefundRepository {
     /**
      * Lấy thông tin hoàn tiền
      */
-    getRefund(ticketId: string): Promise<{
+    getRefund(refundId: string): Promise<{
         ticketId: string;
+        paymentId: string;
         userWallet: string;
         amount: number;
         status: string;

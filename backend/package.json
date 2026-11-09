@@ -1,11 +1,15 @@
 {
   "name": "doan3-app-backend",
   "version": "1.0.0",
-  "description": "Backend API for the CARBOOK web app",
+  "description": "Backend API for the CARBOOK web app (ví nội Firestore, vé NFT)",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon -e ts,js,json --exec tsx src/server.js"
+    "start": "tsx src/server.js",
+    "dev": "nodemon -e ts,js,json --exec tsx src/server.js",
+    "test": "tsx test/hash.test.js && tsx test/auth.test.js && tsx test/withdraw.test.js && tsx test/wallet.test.js && tsx test/mekong.test.js && tsx test/nft.test.js",
+    "test:e2e": "tsx test/e2e.test.js",
+    "dev:local": "node scripts/devLocal.js",
+    "narrow:mekong": "node scripts/narrowToMekong.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -14,6 +18,7 @@
     "exceljs": "^4.4.0",
     "express": "^4.19.2",
     "firebase-admin": "^14.1.0",
+    "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.6.0",
     "nodemailer": "^9.0.3",
     "uuid": "^9.0.1",

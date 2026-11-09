@@ -3,7 +3,7 @@ const { kiemTraThongTin } = require('../services/reservationService');
 
 // GET /api/bookings/ticket/:maDatVe — chi tiết "vé lên xe" (boarding pass) của 1 vé.
 // Tự gộp mọi vé cùng nhóm đặt (maNhomDat) để hiển thị đủ chỗ ngồi; chỉ chủ vé
-// (header x-ma-khach-hang khớp) mới xem được thông tin không che.
+// (token đăng nhập khớp) mới xem được thông tin không che.
 exports.getTicketDetail = async (req, res) => {
   try {
     const { maDatVe } = req.params;
@@ -12,7 +12,7 @@ exports.getTicketDetail = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Không tìm thấy vé.' });
     }
 
-    const maKhachHangDangNhap = req.headers['x-ma-khach-hang'];
+    const maKhachHangDangNhap = req.maKhachHangDangNhap;
     if (!maKhachHangDangNhap || veDoc.data().maKhachHang !== maKhachHangDangNhap) {
       return res.status(403).json({ success: false, message: 'Không có quyền xem vé của khách hàng khác.' });
     }
@@ -114,7 +114,13 @@ exports.getBookingHistory = async (req, res) => {
         // Số ghế để phân biệt các vé mua cùng chuyến (tránh nhìn như "vé trùng")
         seat: ticket.maGhe || '',
         price: `${Number(price).toLocaleString('vi-VN')}đ`,
+        giaGoc: Number(price),
         status: statusStr,
+        // Vé NFT
+        nftTokenId: ticket.nftTokenId || null,
+        nftStatus: ticket.nftStatus || null,
+        dangRaoBan: !!ticket.dangRaoBan,
+        giaRaoBan: ticket.giaRaoBan || null,
         timestamp: departureTime.getTime()
       });
     }

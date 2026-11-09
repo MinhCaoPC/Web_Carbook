@@ -10,6 +10,12 @@ import { db } from "../config/firebase";
 import { sendWithdrawOtpEmail } from "../config/mailer";
 import { VirtualBankService } from "../services/virtualBankService";
 import * as crypto from "crypto";
+import { FieldValue } from "firebase-admin/firestore";
+import { layViCuaTaiKhoan } from "../middlewares/auth";
+import { hashPassword, verifyPassword } from "../utils/passwordHash";
+
+const MAX_OTP_ATTEMPTS = 5;
+const isProduction = () => process.env.NODE_ENV === "production";
 
 const tokenRepository = RepositoryFactory.getTokenRepository();
 const walletRepository = RepositoryFactory.getWalletRepository();
@@ -180,6 +186,16 @@ export class PaymentController {
             const { orderId } = req.body;
             if (!orderId) {
                 return res.status(400).json({ success: false, message: "orderId is required" });
+            }
+
+            // Chỉ chủ ví của đơn nạp mới được kích hoạt đối soát (admin được bỏ qua)
+            const auth = (req as any).auth;
+            if (auth && auth.role !== "AD") {
+                const order = await depositOrderRepository.findById(orderId);
+                const viCuaToi = await layViCuaTaiKhoan(auth.maTaiKhoan);
+                if (order && (!viCuaToi || viCuaToi.toLowerCase() !== String(order.userWallet).toLowerCase())) {
+                    return res.status(403).json({ success: false, message: "Đơn nạp tiền này không thuộc tài khoản của bạn." });
+                }
             }
 
             const result = await PaymentController.reconcileOneOrder(orderId);
@@ -424,47 +440,17 @@ export class PaymentController {
         }
     }
 
-    static async withdraw(req: Request, res: Response) {
-        try {
-            const { userWallet, amount } = req.body;
-            if (!userWallet || amount === undefined) {
-                return res.status(400).json({ success: false, message: "userWallet and amount are required" });
-            }
-            const result = await tokenService.withdraw(userWallet, Number(amount));
-
-            // Record withdrawal in Firestore
-            try {
-                const withdrawId = `WD${Date.now()}`;
-                await db.collection("YEUCAURUTTIEN").doc(withdrawId).set({
-                    withdrawId,
-                    userWallet,
-                    amount: Number(amount),
-                    status: "SUCCESS",
-                    txHash: result.txHash,
-                    createdAt: new Date()
-                });
-            } catch (fsErr) {
-                console.error("Failed to record withdrawal in Firestore:", fsErr);
-            }
-
-            return res.status(200).json({
-                success: true,
-                message: `Withdrew ${amount} tokens from ${userWallet}`,
-                txHash: result.txHash
-            });
-        } catch (error) {
-            console.error("Withdraw controller error:", error);
-            return res.status(500).json({ success: false, message: (error as Error).message });
-        }
-    }
-
     static async pay(req: Request, res: Response) {
         try {
             const { ticketId, userWallet, amount } = req.body;
             if (!ticketId || !userWallet || amount === undefined) {
                 return res.status(400).json({ success: false, message: "ticketId, userWallet, and amount are required" });
             }
-            const result = await paymentService.payForTicket(ticketId, userWallet, Number(amount));
+            const payAmount = Number(amount);
+            if (!Number.isInteger(payAmount) || payAmount <= 0) {
+                return res.status(400).json({ success: false, message: "amount phải là số nguyên dương" });
+            }
+            const result = await paymentService.payForTicket(ticketId, userWallet, payAmount);
             return res.status(200).json({
                 success: true,
                 message: `Paid for ticket ${ticketId}`,
@@ -477,13 +463,19 @@ export class PaymentController {
         }
     }
 
+    // Admin: hoàn tiền thủ công. Contract vẫn kiểm tra paymentId là thanh toán thật của đúng ví,
+    // nên kể cả admin cũng không hoàn "khống" được.
     static async refund(req: Request, res: Response) {
         try {
-            const { ticketId, userWallet, amount } = req.body;
-            if (!ticketId || !userWallet || amount === undefined) {
-                return res.status(400).json({ success: false, message: "ticketId, userWallet, and amount are required" });
+            const { paymentId, ticketId, userWallet, amount } = req.body;
+            if (!paymentId || !ticketId || !userWallet || amount === undefined) {
+                return res.status(400).json({ success: false, message: "paymentId (maNhomDat), ticketId (maDatVe), userWallet and amount are required" });
             }
-            const result = await refundService.refundTicket(ticketId, userWallet, Number(amount));
+            const refundAmount = Number(amount);
+            if (!Number.isInteger(refundAmount) || refundAmount <= 0) {
+                return res.status(400).json({ success: false, message: "amount phải là số nguyên dương" });
+            }
+            const result = await refundService.refundTicket(paymentId, ticketId, userWallet, refundAmount);
             return res.status(200).json({
                 success: true,
                 message: `Refunded ticket ${ticketId}`,
@@ -510,13 +502,23 @@ export class PaymentController {
             }
 
             const ticket = ticketDoc.data()!;
-            
+
+            // 1b. Chỉ CHỦ VÉ mới được hủy (maKhachHang suy ra từ token, không phải từ body)
+            if (ticket.maKhachHang !== (req as any).maKhachHangDangNhap) {
+                return res.status(403).json({ success: false, message: "Bạn không có quyền hủy vé của khách hàng khác." });
+            }
+
             // 2. Kiểm tra vé phải đang ở trạng thái đã thanh toán (DA_TT)
             if (ticket.trangThaiVe !== "DA_TT") {
                 return res.status(400).json({ 
                     success: false, 
                     message: `Không thể hủy vé. Trạng thái vé hiện tại là ${ticket.trangThaiVe}, không phải đã thanh toán (DA_TT).` 
                 });
+            }
+
+            // 2b. Vé đang rao bán trên chợ thì phải huỷ rao bán trước (tránh bán một vé đã bị đốt)
+            if (ticket.dangRaoBan) {
+                return res.status(409).json({ success: false, message: "Vé đang được rao bán. Hãy huỷ rao bán trước khi huỷ vé." });
             }
 
             // 3. Kiểm tra thông tin chuyến xe
@@ -577,21 +579,32 @@ export class PaymentController {
 
             // Tính số tiền hoàn trả: Phí hủy vé 30%, Hoàn lại 70% số tiền vé
             const ticketPrice = Number(ticket.thanhTien || ticket.giaVeGoc || 0);
-            const refundAmount = ticketPrice * 0.7; // 70%
-            const cancelFee = ticketPrice * 0.3; // 30%
+            const refundAmount = Math.floor(ticketPrice * 0.7); // 70% (CAR không có phần thập phân)
+            const cancelFee = ticketPrice - refundAmount; // phần còn lại (~30%)
 
             console.log(`[CancelTicket] Hủy vé ${ticketId}. Giá gốc: ${ticketPrice}. Hoàn lại (70%): ${refundAmount}. Phí hủy (30%): ${cancelFee}`);
 
-            // 5. Cập nhật trạng thái tạm thời của vé thành PENDING để tránh hủy trùng lặp
-            await db.collection("VEXE").doc(ticketId).update({
-                trangThaiVe: "PENDING",
-                ngayCapNhat: new Date()
+            // 5. Chuyển DA_TT -> PENDING bằng transaction (đọc-kiểm-ghi nguyên tử): 2 request hủy
+            //    cùng lúc thì chỉ 1 request thắng, tránh hoàn tiền/mở ghế hai lần.
+            const ticketRef = db.collection("VEXE").doc(ticketId);
+            const giuDuoc = await db.runTransaction(async (tx) => {
+                const cur = await tx.get(ticketRef);
+                if (!cur.exists || cur.data()!.trangThaiVe !== "DA_TT") return false;
+                tx.update(ticketRef, { trangThaiVe: "PENDING", ngayCapNhat: new Date() });
+                return true;
             });
+            if (!giuDuoc) {
+                return res.status(409).json({ success: false, message: "Vé đang được xử lý hủy hoặc đã bị hủy." });
+            }
 
-            // 6. Thực hiện hoàn tiền blockchain bất đồng bộ (Background)
+            // 6. Hoàn tiền về ví nội bất đồng bộ (Background)
             const { nhaGhe } = require("../services/seatHoldService");
 
-            refundService.refundTicket(ticketId, userWallet, refundAmount)
+            // Thanh toán được ghi theo maNhomDat (cả nhóm vé), còn hoàn tiền theo từng vé.
+            // Truyền cả hai: paymentId = khóa thanh toán gốc, refundId = maDatVe của vé này.
+            const paymentId: string = ticket.maNhomDat || ticketId;
+
+            refundService.refundTicket(paymentId, ticketId, userWallet, refundAmount)
                 .then(async (result) => {
                     // Thành công: cập nhật vé thành HUY (CANCELLED), lưu thông tin giao dịch hoàn tiền
                     await db.collection("VEXE").doc(ticketId).update({
@@ -602,11 +615,9 @@ export class PaymentController {
                         ngayCapNhat: new Date()
                     });
 
-                    // Đồng bộ token ERC-20: mint lại CAR tiền hoàn vào VÍ USER (sổ cái đã được
-                    // Refund.sol cộng) — chạy nền, lỗi chỉ cảnh báo vì sổ cái là nguồn sự thật
-                    tokenRepository.mint(userWallet, refundAmount)
-                        .then(() => console.log(`✓ Đã mint lại ${refundAmount} CAR hoàn vé vào ví ${userWallet}`))
-                        .catch((mintErr) => console.error("⚠️ Mint CAR hoàn vé thất bại (sổ cái vẫn đúng):", (mintErr as Error).message));
+                    // Đốt NFT của vé (lỗi đốt không chặn hoàn tiền, chỉ ghi nhận để xử lý)
+                    require("../services/ticketNftService").dotNftVe(ticketId).catch((e: Error) =>
+                        console.error("Lỗi đốt NFT sau hoàn vé:", e.message));
 
                     // Mở lại ghế cho khách khác đặt
                     try {
@@ -642,6 +653,9 @@ export class PaymentController {
     }
 
     static async mockCreateTicket(req: Request, res: Response) {
+        if (isProduction()) {
+            return res.status(404).json({ success: false, message: "Not found" });
+        }
         try {
             const { userId, maChuyenXe, ngayDi, maGhe, status } = req.body;
             if (!userId) {
@@ -803,44 +817,27 @@ export class PaymentController {
                 }
             });
 
-            // 3. Thanh toán vé + 4. Hoàn tiền: đối chiếu trực tiếp từ event on-chain
-            // (PaymentSuccess/PaymentFailed, RefundSuccess/RefundFailed) thay vì đọc bản ghi
-            // mirror trong Firestore (collection "payments"/"refunds" do EventListener ghi lại
-            // khi server đang chạy — nếu server tắt đúng lúc event nổ ra thì bản ghi bị mất
-            // vĩnh viễn). Đọc thẳng sổ cái on-chain nên không thể lệch.
-            const [paymentEvents, refundEvents] = await Promise.all([
-                paymentRepository.getPaymentHistory(address).catch((err) => {
-                    console.error("Lấy lịch sử thanh toán on-chain thất bại:", (err as Error).message);
-                    return [];
-                }),
-                refundRepository.getRefundHistory(address).catch((err) => {
-                    console.error("Lấy lịch sử hoàn tiền on-chain thất bại:", (err as Error).message);
-                    return [];
-                }),
-            ]);
-
-            const payments = paymentEvents.map((evt) => ({
-                id: evt.txHash,
-                type: "Thanh toán",
-                title: "Thanh toán vé xe",
-                amount: `-${evt.amount.toLocaleString('vi-VN')}đ`,
-                status: evt.status === "SUCCESS" ? "Thành công" : "Thất bại",
-                time: new Date(evt.timestamp * 1000),
-                txHash: evt.txHash
+            // 3. Thanh toán vé + 4. Hoàn tiền + 5. Mua/bán vé lại: đọc từ SỔ CÁI VÍ (GIAODICH_VI) —
+            // nguồn sự thật của số dư nên lịch sử luôn khớp số dư.
+            const dongSoCai = await walletRepository.layLichSu(address, ["THANH_TOAN", "HOAN_TIEN", "MUA_VE_LAI", "BAN_VE_LAI"]);
+            const fmt = (n: number) => Math.abs(n).toLocaleString("vi-VN");
+            const NHAN: Record<string, { type: string; title: string; status: string }> = {
+                THANH_TOAN: { type: "Thanh toán", title: "Thanh toán vé xe", status: "Thành công" },
+                HOAN_TIEN: { type: "Hoàn tiền", title: "Hoàn tiền hủy vé xe", status: "Hoàn tất" },
+                MUA_VE_LAI: { type: "Mua vé lại", title: "Mua vé NFT trên chợ", status: "Thành công" },
+                BAN_VE_LAI: { type: "Bán vé lại", title: "Bán vé NFT trên chợ", status: "Thành công" },
+            };
+            const ledger = dongSoCai.map((g: any) => ({
+                id: g.maGiaoDich,
+                type: NHAN[g.loai].type,
+                title: NHAN[g.loai].title,
+                amount: `${g.soTien >= 0 ? "+" : "-"}${fmt(g.soTien)}đ`,
+                status: NHAN[g.loai].status,
+                time: g.thoiGian && typeof g.thoiGian.toDate === "function" ? g.thoiGian.toDate() : new Date(g.thoiGian),
+                txHash: g.maGiaoDich
             }));
-
-            const refunds = refundEvents.map((evt) => ({
-                id: evt.txHash,
-                type: "Hoàn tiền",
-                title: "Hoàn tiền hủy vé xe",
-                amount: `+${evt.amount.toLocaleString('vi-VN')}đ`,
-                status: evt.status === "SUCCESS" ? "Hoàn tất" : "Thất bại",
-                time: new Date(evt.timestamp * 1000),
-                txHash: evt.txHash
-            }));
-
             // Combine and sort
-            const allTransactions = [...deposits, ...withdraws, ...payments, ...refunds];
+            const allTransactions = [...deposits, ...withdraws, ...ledger];
             allTransactions.sort((a, b) => b.time.getTime() - a.time.getTime());
 
             return res.status(200).json({
@@ -853,75 +850,72 @@ export class PaymentController {
         }
     }
 
+    // Bước 1 rút tiền: tạo yêu cầu + gửi OTP qua email của CHÍNH CHỦ ví. Ví đã được middleware
+    // requireOwnWallet xác nhận thuộc người đang đăng nhập; email lấy từ tài khoản trong token.
     static async withdrawRequest(req: Request, res: Response) {
         try {
             const { userWallet, amount, bankName, bankAccount, bankAccountName } = req.body;
             if (!userWallet || amount === undefined || !bankName || !bankAccount || !bankAccountName) {
-                return res.status(400).json({ 
-                    success: false, 
-                    message: "Yêu cầu cung cấp đầy đủ: userWallet, amount, bankName, bankAccount, bankAccountName" 
+                return res.status(400).json({
+                    success: false,
+                    message: "Yêu cầu cung cấp đầy đủ: userWallet, amount, bankName, bankAccount, bankAccountName"
                 });
             }
 
             const withdrawAmount = Number(amount);
-            if (withdrawAmount <= 0) {
-                return res.status(400).json({ success: false, message: "Số tiền rút phải lớn hơn 0" });
+            if (!Number.isInteger(withdrawAmount) || withdrawAmount <= 0) {
+                return res.status(400).json({ success: false, message: "Số tiền rút phải là số nguyên lớn hơn 0" });
             }
 
-            // 1. Tìm email của user thông qua userWallet trong collection TAIKHOAN
-            const cleanAddress = userWallet.trim().toLowerCase();
-            let userDoc = null;
-            const snapshot = await db.collection("TAIKHOAN").where("walletAddress", "==", userWallet).limit(1).get();
-            if (!snapshot.empty) {
-                userDoc = snapshot.docs[0];
-            } else {
-                const snapshotLower = await db.collection("TAIKHOAN").where("walletAddress", "==", cleanAddress).limit(1).get();
-                if (!snapshotLower.empty) {
-                    userDoc = snapshotLower.docs[0];
-                }
+            const auth = (req as any).auth as { maTaiKhoan: string; role: string };
+            const userDoc = await db.collection("TAIKHOAN").doc(auth.maTaiKhoan).get();
+            if (!userDoc.exists) {
+                return res.status(404).json({ success: false, message: "Không tìm thấy tài khoản" });
             }
 
-            if (!userDoc) {
-                return res.status(404).json({ success: false, message: "Không tìm thấy tài khoản liên kết với ví này" });
-            }
-
-            const email = userDoc.data().email;
+            const email = userDoc.data()!.email;
             if (!email) {
                 return res.status(400).json({ success: false, message: "Tài khoản liên kết không có email để nhận mã OTP" });
             }
 
-            // 2. Kiểm tra số dư khả dụng có đủ để rút không
+            // Kiểm tra số dư khả dụng có đủ để rút không
             const availableBalance = await walletRepository.getAvailableBalance(userWallet);
             if (availableBalance < withdrawAmount) {
                 return res.status(400).json({ success: false, message: "Số dư khả dụng không đủ để thực hiện giao dịch" });
             }
 
-            // 3. Tạo mã OTP ngẫu nhiên gồm 6 chữ số
+            // OTP 6 số, chỉ lưu bản băm (không lưu OTP thô trong DB)
             const otp = crypto.randomInt(100000, 1000000).toString();
             const otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 phút
 
-            // 4. Tạo bản ghi giao dịch rút tiền với trạng thái PENDING_OTP
             const withdrawId = `WD${Date.now()}`;
             await db.collection("YEUCAURUTTIEN").doc(withdrawId).set({
                 withdrawId,
+                maTaiKhoan: auth.maTaiKhoan,
                 userWallet,
                 amount: withdrawAmount,
                 bankName,
                 bankAccount,
                 bankAccountName,
                 status: "PENDING_OTP",
-                otp,
+                otpHash: await hashPassword(otp),
+                otpAttempts: 0,
                 otpExpires,
                 createdAt: new Date()
             });
 
-            // 5. Gửi mã OTP qua email
             try {
                 await sendWithdrawOtpEmail(email, otp, withdrawAmount);
-                console.log(`✓ Đã gửi OTP rút tiền (${otp}) tới email ${email}`);
+                console.log(`✓ Đã gửi OTP rút tiền tới email ${email}`);
             } catch (mailErr) {
-                console.warn("⚠️ Cảnh báo: Không thể gửi email OTP rút tiền do lỗi đăng nhập SMTP Gmail. Chi tiết:", (mailErr as Error).message);
-                console.log(`👉 [DEMO BYPASS] Mã OTP vừa sinh là: ${otp}. Bạn có thể nhập mã này hoặc bất kỳ mã 6 chữ số nào trên giao diện.`);
+                console.warn("⚠️ Không thể gửi email OTP rút tiền:", (mailErr as Error).message);
+                if (isProduction()) {
+                    // Production: không có đường vòng — không gửi được OTP thì hủy yêu cầu
+                    await db.collection("YEUCAURUTTIEN").doc(withdrawId).update({ status: "FAILED", errorMessage: "Không gửi được OTP", completedAt: new Date() });
+                    return res.status(502).json({ success: false, message: "Không gửi được mã OTP. Vui lòng thử lại sau." });
+                }
+                // Chỉ ở môi trường dev: in OTP ra console để test khi chưa cấu hình SMTP
+                console.log(`👉 [DEV] Mã OTP rút tiền (${withdrawId}): ${otp}`);
             }
 
             return res.status(200).json({
@@ -936,14 +930,19 @@ export class PaymentController {
         }
     }
 
+    // Bước 2 rút tiền: kiểm tra OTP THẬT (đúng mã, chưa hết hạn, tối đa MAX_OTP_ATTEMPTS lần thử),
+    // yêu cầu phải của chính người đang đăng nhập, rồi mới burn token + chuyển khoản.
     static async withdrawConfirm(req: Request, res: Response) {
+        const { withdrawId, otp } = req.body;
+        let daBurn = false;
+        let withdrawData: FirebaseFirestore.DocumentData | undefined;
+
         try {
-            const { withdrawId, otp } = req.body;
-            if (!withdrawId || !otp) {
-                return res.status(400).json({ success: false, message: "withdrawId và otp là bắt buộc" });
+            if (!withdrawId || !otp || typeof withdrawId !== "string" || !/^\d{6}$/.test(String(otp))) {
+                return res.status(400).json({ success: false, message: "withdrawId và otp (6 chữ số) là bắt buộc" });
             }
 
-            // 1. Tìm bản ghi giao dịch
+            const auth = (req as any).auth as { maTaiKhoan: string; role: string };
             const docRef = db.collection("YEUCAURUTTIEN").doc(withdrawId);
             const doc = await docRef.get();
             if (!doc.exists) {
@@ -951,60 +950,93 @@ export class PaymentController {
             }
 
             const data = doc.data()!;
+
+            // Yêu cầu phải thuộc người đang đăng nhập (nếu không, người này có thể đoán withdrawId của người khác)
+            if (data.maTaiKhoan !== auth.maTaiKhoan) {
+                return res.status(403).json({ success: false, message: "Yêu cầu rút tiền này không thuộc tài khoản của bạn" });
+            }
             if (data.status !== "PENDING_OTP") {
                 return res.status(400).json({ success: false, message: "Yêu cầu rút tiền này đã được xử lý hoặc không hợp lệ" });
             }
+            if (new Date() > data.otpExpires.toDate()) {
+                return res.status(400).json({ success: false, message: "Mã OTP đã hết hạn, vui lòng yêu cầu lại" });
+            }
+            if ((data.otpAttempts || 0) >= MAX_OTP_ATTEMPTS) {
+                return res.status(429).json({ success: false, message: "Nhập sai OTP quá nhiều lần, vui lòng tạo yêu cầu rút tiền mới" });
+            }
 
-            // 2. Xác thực OTP & hết hạn
-            // Hỗ trợ bypass OTP trong môi trường thử nghiệm: bất kỳ OTP nào có độ dài 6 ký tự đều được coi là đúng
-            const isDemoBypass = otp.length === 6;
-            if (data.otp !== otp && !isDemoBypass) {
+            // Xác thực OTP — không còn đường bypass
+            const kiemTra = data.otpHash ? await verifyPassword(String(otp), data.otpHash) : { ok: false };
+            if (!kiemTra.ok) {
+                const lanSai = (data.otpAttempts || 0) + 1;
+                await docRef.update({
+                    otpAttempts: FieldValue.increment(1),
+                    ...(lanSai >= MAX_OTP_ATTEMPTS ? { status: "FAILED", errorMessage: "Nhập sai OTP quá số lần cho phép", completedAt: new Date() } : {})
+                });
                 return res.status(400).json({ success: false, message: "Mã OTP không chính xác" });
             }
 
-            const expiry = data.otpExpires.toDate();
-            if (new Date() > expiry) {
-                return res.status(400).json({ success: false, message: "Mã OTP đã hết hạn, vui lòng yêu cầu lại" });
+            // Chiếm yêu cầu bằng transaction: chỉ 1 request chuyển được PENDING_OTP -> PROCESSING,
+            // chặn việc gửi confirm đồng thời để rút 2 lần với cùng 1 OTP.
+            const chiem = await db.runTransaction(async (tx) => {
+                const cur = await tx.get(docRef);
+                if (!cur.exists || cur.data()!.status !== "PENDING_OTP") return false;
+                tx.update(docRef, { status: "PROCESSING", otpHash: FieldValue.delete() });
+                return true;
+            });
+            if (!chiem) {
+                return res.status(409).json({ success: false, message: "Yêu cầu rút tiền đang được xử lý" });
             }
+            withdrawData = data;
 
-            // 3. Thực hiện burn token & đồng bộ số dư trên blockchain
+            // Burn token (số dư ví giảm theo vì Wallet chỉ đọc lại số dư CARToken)
             console.log(`[WithdrawConfirm] Tiến hành burn ${data.amount} CAR token từ ví ${data.userWallet}`);
             const result = await tokenService.withdraw(data.userWallet, data.amount);
+            daBurn = true;
 
-            // 4. Gửi lệnh chuyển khoản VNĐ qua ngân hàng (giả lập)
+            // Gửi lệnh chuyển khoản VNĐ qua ngân hàng (giả lập)
             const bankResult = await VirtualBankService.transferVND(
                 data.bankName,
                 data.bankAccount,
                 data.bankAccountName,
                 data.amount
             );
-
-            if (bankResult.success) {
-                // 5. Cập nhật trạng thái thành công lên Firebase
-                await docRef.update({
-                    status: "SUCCESS",
-                    txHash: result.txHash,
-                    bankTxId: bankResult.transactionId,
-                    completedAt: new Date()
-                });
-
-                return res.status(200).json({
-                    success: true,
-                    message: `Rút tiền thành công. Đã gửi ${data.amount} VNĐ về tài khoản ${data.bankAccount}`,
-                    txHash: result.txHash,
-                    bankTxId: bankResult.transactionId
-                });
-            } else {
+            if (!bankResult.success) {
                 throw new Error("Lỗi khi gửi lệnh chuyển khoản ngân hàng.");
             }
+
+            await docRef.update({
+                status: "SUCCESS",
+                txHash: result.txHash,
+                bankTxId: bankResult.transactionId,
+                completedAt: new Date()
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: `Rút tiền thành công. Đã gửi ${data.amount} VNĐ về tài khoản ${data.bankAccount}`,
+                txHash: result.txHash,
+                bankTxId: bankResult.transactionId
+            });
         } catch (error) {
             console.error("Withdraw confirm error:", error);
             try {
-                const { withdrawId } = req.body;
-                if (withdrawId) {
+                if (withdrawId && withdrawData) {
+                    let ghiChu = "";
+                    // Đã burn token nhưng chuyển khoản ngân hàng hỏng -> trả lại token cho user
+                    if (daBurn) {
+                        try {
+                            await tokenRepository.mint(withdrawData.userWallet, withdrawData.amount);
+                            ghiChu = "Đã hoàn lại token do chuyển khoản thất bại";
+                        } catch (mintErr) {
+                            ghiChu = "CẦN XỬ LÝ THỦ CÔNG: đã burn token nhưng chuyển khoản và hoàn token đều thất bại";
+                            console.error("❌ Hoàn token sau rút tiền lỗi:", mintErr);
+                        }
+                    }
                     await db.collection("YEUCAURUTTIEN").doc(withdrawId).update({
                         status: "FAILED",
                         errorMessage: (error as Error).message,
+                        ghiChu,
                         completedAt: new Date()
                     });
                 }

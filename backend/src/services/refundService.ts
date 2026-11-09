@@ -8,16 +8,16 @@ export class RefundService {
         private refundRepository: IRefundRepository
     ) {}
 
-    async refundTicket(ticketId: string, userWallet: string, amount: number) {
+    async refundTicket(paymentId: string, refundId: string, userWallet: string, amount: number) {
         try {
             // 1. Kiểm tra ví tồn tại
             const exists = await this.walletRepository.walletExists(userWallet);
             if (!exists) throw new Error("Wallet not found");
 
-            // 2. Thực hiện hoàn tiền trên smart contract.
-            //    LƯU Ý: Refund.sol._processRefund ĐÃ TỰ CỘNG tiền hoàn vào sổ cái Wallet —
-            //    backend KHÔNG được updateBalance thêm lần nữa (bug cũ: cộng ĐÔI tiền hoàn).
-            const result = await this.refundRepository.refundTicket(ticketId, userWallet, amount);
+            // 2. Hoàn tiền về ví nội. Repository tự kiểm tra trong một transaction: thanh toán gốc có
+            //    thật / đúng chủ ví / tổng hoàn chưa vượt số đã trả / mã hoàn chưa dùng — rồi mới cộng
+            //    tiền. Backend không cộng tiền ở bước nào khác.
+            const result = await this.refundRepository.refundTicket(paymentId, refundId, userWallet, amount);
 
             return result;
         } catch (error) {

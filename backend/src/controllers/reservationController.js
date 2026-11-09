@@ -23,13 +23,13 @@ exports.giuCho = async (req, res) => {
 };
 
 // GET /api/dat-ve/kiem-tra?danhSachMaDatVe=...
-// Header x-ma-khach-hang (nếu có và đúng chủ vé) sẽ trả về thông tin gốc (không mask) để hiển thị/sửa
+// Token đăng nhập (nếu có và đúng chủ vé) sẽ trả về thông tin gốc (không mask) để hiển thị/sửa
 exports.kiemTra = async (req, res) => {
   try {
     const danhSachMaDatVe = parseDanhSachMaDatVe(req.query.danhSachMaDatVe);
     const result = await reservationService.kiemTraThongTin(danhSachMaDatVe, {
       maskThongTin: true,
-      maKhachHangDangNhap: req.headers['x-ma-khach-hang'],
+      maKhachHangDangNhap: req.maKhachHangDangNhap,
     });
     return res.status(200).json(result);
   } catch (error) {
@@ -82,7 +82,7 @@ exports.thongTinThanhToan = async (req, res) => {
     const danhSachMaDatVe = parseDanhSachMaDatVe(req.query.danhSachMaDatVe);
     const result = await reservationService.layThongTinThanhToan(danhSachMaDatVe, {
       maskThongTin: true,
-      maKhachHangDangNhap: req.headers['x-ma-khach-hang'],
+      maKhachHangDangNhap: req.maKhachHangDangNhap,
     });
     return res.status(200).json(result);
   } catch (error) {
