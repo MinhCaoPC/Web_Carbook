@@ -1,0 +1,17 @@
+{
+  "localhost": {
+    "diaChi": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "chainId": 31337,
+    "khoiTrienKhai": 1,
+    "chuHopDong": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "thoiGian": "2026-11-14T04:58:48.422Z"
+  },
+  "sepolia": {
+    "diaChi": "0xa5f3F4123c55D655396D3a3538AF82ea5bc37245",
+    "chainId": 11155111,
+    "khoiTrienKhai": 12131897,
+    "chuHopDong": "0x56f0648a0E22f4E210C14850B4ac23749D95591d",
+    "urlMetadata": "http://localhost:5050/api/metadata/",
+    "thoiGian": "2026-11-14T08:24:24.336Z"
+  }
+}

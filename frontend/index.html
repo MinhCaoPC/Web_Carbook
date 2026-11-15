@@ -9,11 +9,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/giao-dien.css">
   <script>
     // Áp dụng giao diện sáng/tối trước khi vẽ để tránh nháy trắng
     try { if (localStorage.getItem('carbook_theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
   </script>
+  <!-- Quét mã QR bằng camera (trang Soát vé) -->
+  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js" defer></script>
 </head>
 <body>
   <header class="topbar" id="topbar">
@@ -34,6 +36,6 @@
   <div id="modal-root"></div>
 
   <noscript><p style="padding:24px">Trang web cần bật JavaScript để hoạt động.</p></noscript>
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/ung-dung.js"></script>
 </body>
 </html>

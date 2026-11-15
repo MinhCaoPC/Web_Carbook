@@ -1,18 +1,21 @@
 {
-  "name": "blockchain",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "hardhat test"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "carbook-blockchain",
+  "version": "2.0.0",
+  "description": "Smart contract vé xe NFT CARBOOK (ERC-721)",
+  "private": true,
   "type": "module",
+  "scripts": {
+    "bien-dich": "node scripts/bien-dich.js",
+    "bien-dich:hardhat": "hardhat compile",
+    "mang-ao": "hardhat node",
+    "mang-ao:ganache": "node scripts/mang-ao-ganache.js",
+    "trien-khai": "node scripts/trien-khai.js",
+    "trien-khai:sepolia": "node scripts/trien-khai.js sepolia",
+    "xac-minh": "node scripts/xac-minh-etherscan.js",
+    "test": "mocha test/*.test.js --timeout 60000 --exit"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.14",
-    "@nomicfoundation/hardhat-ignition": "^3.1.8",
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.7",
     "@types/chai": "^5.2.3",
     "@types/chai-as-promised": "^8.0.2",
@@ -20,13 +23,14 @@
     "@types/node": "^22.20.1",
     "chai": "^6.2.2",
     "ethers": "^6.17.0",
-    "forge-std": "github:foundry-rs/forge-std#v1.9.4",
+    "ganache": "7.9.2",
     "hardhat": "^3.9.1",
     "mocha": "^11.7.6",
+    "solc": "0.8.28",
     "typescript": "~6.0.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.6.1",
+    "@openzeppelin/contracts": "5.0.2",
     "dotenv": "^17.4.2"
   }
 }

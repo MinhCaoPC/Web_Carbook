@@ -1,13 +1,17 @@
-.aider*
-build/
-.dart_tool/
-
+node_modules/
+.env
 .env.*
 !.env.example
 .DS_Store
 *.log
-ngrok*
-backend/firestore-backup/
-Ảnh màn hình*
-key.png
-keyVN*.png
+
+# Khóa Firebase — tuyệt đối không đưa lên git
+serviceAccountKey.json
+
+# Dữ liệu cá nhân khi chạy chế độ NOI_LUU_DU_LIEU=tep (danh-muc.json thì được commit)
+backend/du-lieu/NGUOIDUNG.json
+backend/du-lieu/THONGTIN_VE.json
+
+# Kết quả biên dịch hợp đồng (tạo lại bằng: cd blockchain && npm run bien-dich)
+blockchain/artifacts/
+blockchain/cache/

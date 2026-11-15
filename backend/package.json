@@ -1,37 +1,25 @@
 {
-  "name": "doan3-app-backend",
-  "version": "1.0.0",
-  "description": "Backend API for the CARBOOK web app (ví nội Firestore, vé NFT)",
-  "main": "src/server.js",
+  "name": "carbook-backend",
+  "version": "2.0.0",
+  "description": "Backend CARBOOK: Node.js + Firebase (dữ liệu off-chain) + ethers (đọc hợp đồng vé NFT)",
+  "main": "src/may-chu.js",
+  "private": true,
+  "type": "commonjs",
   "scripts": {
-    "start": "tsx src/server.js",
-    "dev": "nodemon -e ts,js,json --exec tsx src/server.js",
-    "test": "tsx test/hash.test.js && tsx test/auth.test.js && tsx test/withdraw.test.js && tsx test/wallet.test.js && tsx test/mekong.test.js && tsx test/nft.test.js",
-    "test:e2e": "tsx test/e2e.test.js",
-    "dev:local": "node scripts/devLocal.js",
-    "narrow:mekong": "node scripts/narrowToMekong.js"
+    "start": "node src/may-chu.js",
+    "start:sepolia": "node src/may-chu.js --sepolia",
+    "dev": "node --watch src/may-chu.js",
+    "mo-ban-chuyen": "node scripts/mo-ban-chuyen.js",
+    "mo-ban-chuyen:sepolia": "node scripts/mo-ban-chuyen.js --sepolia",
+    "lam-moi-danh-muc": "node scripts/lam-moi-danh-muc.js",
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "ethers": "^6.17.0",
-    "exceljs": "^4.4.0",
     "express": "^4.19.2",
     "firebase-admin": "^14.1.0",
     "jsonwebtoken": "^9.0.3",
-    "node-cron": "^4.6.0",
-    "nodemailer": "^9.0.3",
-    "uuid": "^9.0.1",
-    "xlsx": "^0.18.5"
-  },
-  "devDependencies": {
-    "@types/node": "^26.1.1",
-    "nodemon": "^3.1.4",
-    "tsx": "^4.23.1",
-    "typescript": "^7.0.2"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+    "nodemailer": "^10.5.0"
+  }
 }
