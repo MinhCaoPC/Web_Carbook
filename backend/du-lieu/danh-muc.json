@@ -1,0 +1,3201 @@
+{
+ "thoiGianTai": 1794587497673,
+ "loTrinh": [
+  {
+   "ma": "LT001",
+   "tenLoTrinh": "An Minh (An Giang) - Miền Tây",
+   "diemKhoiHanh": "An Minh (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 184,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT002",
+   "tenLoTrinh": "Bạc Liêu (Cà Mau) - Cần Thơ",
+   "diemKhoiHanh": "Bạc Liêu (Cà Mau)",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 95,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT003",
+   "tenLoTrinh": "Bến Cát (TP.HCM) - Sóc Trăng (Cần Thơ)",
+   "diemKhoiHanh": "Bến Cát (TP.HCM)",
+   "diemKetThuc": "Sóc Trăng (Cần Thơ)",
+   "quangDuongKm": 4,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT004",
+   "tenLoTrinh": "Bến Cát (TP.HCM) - Vĩnh Châu (Cần Thơ)",
+   "diemKhoiHanh": "Bến Cát (TP.HCM)",
+   "diemKetThuc": "Vĩnh Châu (Cần Thơ)",
+   "quangDuongKm": 4,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT005",
+   "tenLoTrinh": "Bến Cát (TP.HCM) - Hà Tiên (An Giang)",
+   "diemKhoiHanh": "Bến Cát (TP.HCM)",
+   "diemKetThuc": "Hà Tiên (An Giang)",
+   "quangDuongKm": 50,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT006",
+   "tenLoTrinh": "Bình Dương (TP.HCM) - Cà Mau",
+   "diemKhoiHanh": "Bình Dương (TP.HCM)",
+   "diemKetThuc": "Cà Mau",
+   "quangDuongKm": 70,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT007",
+   "tenLoTrinh": "Bình Dương (TP.HCM) - Khánh Bình (An Giang)",
+   "diemKhoiHanh": "Bình Dương (TP.HCM)",
+   "diemKetThuc": "Khánh Bình (An Giang)",
+   "quangDuongKm": 74,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT008",
+   "tenLoTrinh": "Bình Dương (TP.HCM) - Vĩnh Thuận (An Giang)",
+   "diemKhoiHanh": "Bình Dương (TP.HCM)",
+   "diemKetThuc": "Vĩnh Thuận (An Giang)",
+   "quangDuongKm": 74,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT009",
+   "tenLoTrinh": "Cà Mau - Cần Thơ",
+   "diemKhoiHanh": "Cà Mau",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 75,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT010",
+   "tenLoTrinh": "Cà Mau - Miền Tây",
+   "diemKhoiHanh": "Cà Mau",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 200,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT011",
+   "tenLoTrinh": "Cà Mau - Bình Dương (TP.HCM)",
+   "diemKhoiHanh": "Cà Mau",
+   "diemKetThuc": "Bình Dương (TP.HCM)",
+   "quangDuongKm": 10,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT012",
+   "tenLoTrinh": "Cà Mau - Cần Thơ",
+   "diemKhoiHanh": "Cà Mau",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 66,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT013",
+   "tenLoTrinh": "Cà Mau - Miền Tây",
+   "diemKhoiHanh": "Cà Mau",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 275,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT014",
+   "tenLoTrinh": "Cần Thơ - Bình Dương (TP.HCM)",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Bình Dương (TP.HCM)",
+   "quangDuongKm": 160,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT015",
+   "tenLoTrinh": "Cần Thơ - Cà Mau",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Cà Mau",
+   "quangDuongKm": 40,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT016",
+   "tenLoTrinh": "Cần Thơ - Châu Đốc (An Giang)",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Châu Đốc (An Giang)",
+   "quangDuongKm": 111,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT017",
+   "tenLoTrinh": "Cần Thơ - Gành Hào (Cà Mau)",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Gành Hào (Cà Mau)",
+   "quangDuongKm": 70,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT018",
+   "tenLoTrinh": "Cần Thơ - Hà Tiên (An Giang)",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Hà Tiên (An Giang)",
+   "quangDuongKm": 85,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT019",
+   "tenLoTrinh": "Cần Thơ - Hồng Ngự (Đồng Tháp)",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Hồng Ngự (Đồng Tháp)",
+   "quangDuongKm": 36,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT020",
+   "tenLoTrinh": "Cần Thơ - Miền Đông Mới",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Miền Đông Mới",
+   "quangDuongKm": 38,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT021",
+   "tenLoTrinh": "Cần Thơ - Năm Căn (Cà Mau)",
+   "diemKhoiHanh": "Cần Thơ",
+   "diemKetThuc": "Năm Căn (Cà Mau)",
+   "quangDuongKm": 38,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT022",
+   "tenLoTrinh": "Cầu Kè (Vĩnh Long) - Miền Tây",
+   "diemKhoiHanh": "Cầu Kè (Vĩnh Long)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 45,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT023",
+   "tenLoTrinh": "Châu Đốc (An Giang) - Cần Thơ",
+   "diemKhoiHanh": "Châu Đốc (An Giang)",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 48,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT024",
+   "tenLoTrinh": "Châu Đốc (An Giang) - Miền Tây",
+   "diemKhoiHanh": "Châu Đốc (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 110,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT025",
+   "tenLoTrinh": "Đầm Dơi (Cà Mau) - Miền Tây",
+   "diemKhoiHanh": "Đầm Dơi (Cà Mau)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 110,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT026",
+   "tenLoTrinh": "Duyên Hải (Vĩnh Long) - Miền Tây",
+   "diemKhoiHanh": "Duyên Hải (Vĩnh Long)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 90,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT027",
+   "tenLoTrinh": "Gành Hào (Cà Mau) - Cần Thơ",
+   "diemKhoiHanh": "Gành Hào (Cà Mau)",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 99,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT028",
+   "tenLoTrinh": "Gành Hào (Cà Mau) - Miền Tây",
+   "diemKhoiHanh": "Gành Hào (Cà Mau)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 240,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT029",
+   "tenLoTrinh": "Gò Quao (An Giang) - Miền Tây",
+   "diemKhoiHanh": "Gò Quao (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 184,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT030",
+   "tenLoTrinh": "Hà Tiên (An Giang) - Miền Tây",
+   "diemKhoiHanh": "Hà Tiên (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 156,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT031",
+   "tenLoTrinh": "Hà Tiên (An Giang) - Bến Cát (TP.HCM)",
+   "diemKhoiHanh": "Hà Tiên (An Giang)",
+   "diemKetThuc": "Bến Cát (TP.HCM)",
+   "quangDuongKm": 20,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT032",
+   "tenLoTrinh": "Hộ Phòng (Cà Mau) - Miền Tây",
+   "diemKhoiHanh": "Hộ Phòng (Cà Mau)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 98,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT033",
+   "tenLoTrinh": "Hồng Ngự (Đồng Tháp) - Cần Thơ",
+   "diemKhoiHanh": "Hồng Ngự (Đồng Tháp)",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 78,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT034",
+   "tenLoTrinh": "Khánh Bình (An Giang) - Bình Dương (TP.HCM)",
+   "diemKhoiHanh": "Khánh Bình (An Giang)",
+   "diemKetThuc": "Bình Dương (TP.HCM)",
+   "quangDuongKm": 80,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT035",
+   "tenLoTrinh": "Khánh Bình (An Giang) - Miền Tây",
+   "diemKhoiHanh": "Khánh Bình (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 43,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT036",
+   "tenLoTrinh": "Miền Đông Mới - Hồng Ngự (Đồng Tháp)",
+   "diemKhoiHanh": "Miền Đông Mới",
+   "diemKetThuc": "Hồng Ngự (Đồng Tháp)",
+   "quangDuongKm": 160,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT037",
+   "tenLoTrinh": "Miền Tây - An Minh (An Giang)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "An Minh (An Giang)",
+   "quangDuongKm": 183,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT038",
+   "tenLoTrinh": "Miền Tây - Ba Tri (Vĩnh Long)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Ba Tri (Vĩnh Long)",
+   "quangDuongKm": 50,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT039",
+   "tenLoTrinh": "Miền Tây - Cà Mau",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Cà Mau",
+   "quangDuongKm": 52,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT040",
+   "tenLoTrinh": "Miền Tây - Cà Mau",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Cà Mau",
+   "quangDuongKm": 184,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT041",
+   "tenLoTrinh": "Miền Tây - Cầu Kè (Vĩnh Long)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Cầu Kè (Vĩnh Long)",
+   "quangDuongKm": 70,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT042",
+   "tenLoTrinh": "Miền Tây - Đầm Dơi (Cà Mau)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Đầm Dơi (Cà Mau)",
+   "quangDuongKm": 80,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT043",
+   "tenLoTrinh": "Miền Tây - Gành Hào (Cà Mau)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Gành Hào (Cà Mau)",
+   "quangDuongKm": 79,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT044",
+   "tenLoTrinh": "Miền Tây - Hà Tiên (An Giang)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Hà Tiên (An Giang)",
+   "quangDuongKm": 120,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT045",
+   "tenLoTrinh": "Miền Tây - Hộ Phòng (Cà Mau)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Hộ Phòng (Cà Mau)",
+   "quangDuongKm": 87,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT046",
+   "tenLoTrinh": "Miền Tây - Hồng Ngự (Đồng Tháp)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Hồng Ngự (Đồng Tháp)",
+   "quangDuongKm": 160,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT047",
+   "tenLoTrinh": "Miền Tây - Sóc Trăng (Cần Thơ)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Sóc Trăng (Cần Thơ)",
+   "quangDuongKm": 170,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT048",
+   "tenLoTrinh": "Miền Tây - Vũng Tàu (TP.HCM)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Vũng Tàu (TP.HCM)",
+   "quangDuongKm": 102,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT049",
+   "tenLoTrinh": "Miền Tây - Vũng Tàu (TP.HCM)",
+   "diemKhoiHanh": "Miền Tây",
+   "diemKetThuc": "Vũng Tàu (TP.HCM)",
+   "quangDuongKm": 102,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT050",
+   "tenLoTrinh": "Năm Căn (Cà Mau) - Cần Thơ",
+   "diemKhoiHanh": "Năm Căn (Cà Mau)",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 75,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT051",
+   "tenLoTrinh": "Năm Căn (Cà Mau) - Miền Tây",
+   "diemKhoiHanh": "Năm Căn (Cà Mau)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 85,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT052",
+   "tenLoTrinh": "Phước Long (Cà Mau) - Miền Tây",
+   "diemKhoiHanh": "Phước Long (Cà Mau)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 51,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT053",
+   "tenLoTrinh": "Rạch Giá (An Giang) - Miền Đông Mới",
+   "diemKhoiHanh": "Rạch Giá (An Giang)",
+   "diemKetThuc": "Miền Đông Mới",
+   "quangDuongKm": 184,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT054",
+   "tenLoTrinh": "Rạch Giá (An Giang) - Miền Tây",
+   "diemKhoiHanh": "Rạch Giá (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 184,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT055",
+   "tenLoTrinh": "Sóc Trăng (Cần Thơ) - Bến Cát (TP.HCM)",
+   "diemKhoiHanh": "Sóc Trăng (Cần Thơ)",
+   "diemKetThuc": "Bến Cát (TP.HCM)",
+   "quangDuongKm": 29,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT056",
+   "tenLoTrinh": "Sóc Trăng (Cần Thơ) - Miền Tây",
+   "diemKhoiHanh": "Sóc Trăng (Cần Thơ)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 202,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT057",
+   "tenLoTrinh": "Thạnh Phú (Vĩnh Long) - Miền Tây",
+   "diemKhoiHanh": "Thạnh Phú (Vĩnh Long)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 130,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT058",
+   "tenLoTrinh": "Trà Ôn (Vĩnh Long) - Miền Tây",
+   "diemKhoiHanh": "Trà Ôn (Vĩnh Long)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 160,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT059",
+   "tenLoTrinh": "Trà Vinh (Vĩnh Long) - Miền Tây",
+   "diemKhoiHanh": "Trà Vinh (Vĩnh Long)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 75,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT060",
+   "tenLoTrinh": "Vĩnh Châu (Cần Thơ) - Bến Cát (TP.HCM)",
+   "diemKhoiHanh": "Vĩnh Châu (Cần Thơ)",
+   "diemKetThuc": "Bến Cát (TP.HCM)",
+   "quangDuongKm": 50,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT061",
+   "tenLoTrinh": "Vĩnh Thuận (An Giang) - Bình Dương (TP.HCM)",
+   "diemKhoiHanh": "Vĩnh Thuận (An Giang)",
+   "diemKetThuc": "Bình Dương (TP.HCM)",
+   "quangDuongKm": 186,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT062",
+   "tenLoTrinh": "Vĩnh Thuận (An Giang) - Miền Tây",
+   "diemKhoiHanh": "Vĩnh Thuận (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 170,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT063",
+   "tenLoTrinh": "Vĩnh Thuận (An Giang) - Miền Tây",
+   "diemKhoiHanh": "Vĩnh Thuận (An Giang)",
+   "diemKetThuc": "Miền Tây",
+   "quangDuongKm": 206,
+   "trangThai": "HoatDong"
+  },
+  {
+   "ma": "LT064",
+   "tenLoTrinh": "Vũng Tàu (TP.HCM) - Cần Thơ",
+   "diemKhoiHanh": "Vũng Tàu (TP.HCM)",
+   "diemKetThuc": "Cần Thơ",
+   "quangDuongKm": 240,
+   "trangThai": "HoatDong"
+  }
+ ],
+ "chuyenXe": [
+  {
+   "ma": "CX001",
+   "maLoTrinh": "LT001",
+   "maXe": "XE001",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX002",
+   "maLoTrinh": "LT001",
+   "maXe": "XE085",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX003",
+   "maLoTrinh": "LT001",
+   "maXe": "XE052",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX004",
+   "maLoTrinh": "LT002",
+   "maXe": "XE050",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX005",
+   "maLoTrinh": "LT002",
+   "maXe": "XE090",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX006",
+   "maLoTrinh": "LT002",
+   "maXe": "XE051",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX007",
+   "maLoTrinh": "LT003",
+   "maXe": "XE048",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX008",
+   "maLoTrinh": "LT003",
+   "maXe": "XE095",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX009",
+   "maLoTrinh": "LT003",
+   "maXe": "XE050",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX010",
+   "maLoTrinh": "LT004",
+   "maXe": "XE047",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX011",
+   "maLoTrinh": "LT004",
+   "maXe": "XE068",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX012",
+   "maLoTrinh": "LT004",
+   "maXe": "XE048",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX013",
+   "maLoTrinh": "LT005",
+   "maXe": "XE044",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX014",
+   "maLoTrinh": "LT005",
+   "maXe": "XE070",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX015",
+   "maLoTrinh": "LT005",
+   "maXe": "XE047",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX016",
+   "maLoTrinh": "LT006",
+   "maXe": "XE042",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX017",
+   "maLoTrinh": "LT006",
+   "maXe": "XE075",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX018",
+   "maLoTrinh": "LT006",
+   "maXe": "XE046",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX019",
+   "maLoTrinh": "LT007",
+   "maXe": "XE038",
+   "giaVe": 190000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX020",
+   "maLoTrinh": "LT007",
+   "maXe": "XE078",
+   "giaVe": 190000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX021",
+   "maLoTrinh": "LT007",
+   "maXe": "XE045",
+   "giaVe": 190000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX022",
+   "maLoTrinh": "LT008",
+   "maXe": "XE054",
+   "giaVe": 190000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX023",
+   "maLoTrinh": "LT008",
+   "maXe": "XE076",
+   "giaVe": 190000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX024",
+   "maLoTrinh": "LT008",
+   "maXe": "XE044",
+   "giaVe": 190000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX025",
+   "maLoTrinh": "LT009",
+   "maXe": "XE057",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX026",
+   "maLoTrinh": "LT009",
+   "maXe": "XE074",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX027",
+   "maLoTrinh": "LT009",
+   "maXe": "XE043",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX028",
+   "maLoTrinh": "LT010",
+   "maXe": "XE063",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX029",
+   "maLoTrinh": "LT010",
+   "maXe": "XE072",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX030",
+   "maLoTrinh": "LT010",
+   "maXe": "XE053",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX031",
+   "maLoTrinh": "LT011",
+   "maXe": "XE062",
+   "giaVe": 175000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX032",
+   "maLoTrinh": "LT011",
+   "maXe": "XE071",
+   "giaVe": 175000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX033",
+   "maLoTrinh": "LT011",
+   "maXe": "XE042",
+   "giaVe": 175000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX034",
+   "maLoTrinh": "LT012",
+   "maXe": "XE060",
+   "giaVe": 155000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX035",
+   "maLoTrinh": "LT012",
+   "maXe": "XE077",
+   "giaVe": 155000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX036",
+   "maLoTrinh": "LT012",
+   "maXe": "XE040",
+   "giaVe": 155000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX037",
+   "maLoTrinh": "LT013",
+   "maXe": "XE040",
+   "giaVe": 300000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX038",
+   "maLoTrinh": "LT013",
+   "maXe": "XE067",
+   "giaVe": 300000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX039",
+   "maLoTrinh": "LT013",
+   "maXe": "XE039",
+   "giaVe": 300000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX040",
+   "maLoTrinh": "LT014",
+   "maXe": "XE035",
+   "giaVe": 185000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX041",
+   "maLoTrinh": "LT014",
+   "maXe": "XE066",
+   "giaVe": 185000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX042",
+   "maLoTrinh": "LT014",
+   "maXe": "XE038",
+   "giaVe": 185000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX043",
+   "maLoTrinh": "LT015",
+   "maXe": "XE014",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX044",
+   "maLoTrinh": "LT015",
+   "maXe": "XE060",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX045",
+   "maLoTrinh": "LT015",
+   "maXe": "XE037",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX046",
+   "maLoTrinh": "LT016",
+   "maXe": "XE012",
+   "giaVe": 150000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX047",
+   "maLoTrinh": "LT016",
+   "maXe": "XE057",
+   "giaVe": 150000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX048",
+   "maLoTrinh": "LT016",
+   "maXe": "XE036",
+   "giaVe": 150000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX049",
+   "maLoTrinh": "LT017",
+   "maXe": "XE010",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX050",
+   "maLoTrinh": "LT017",
+   "maXe": "XE053",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX051",
+   "maLoTrinh": "LT017",
+   "maXe": "XE034",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX052",
+   "maLoTrinh": "LT018",
+   "maXe": "XE009",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX053",
+   "maLoTrinh": "LT018",
+   "maXe": "XE079",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX054",
+   "maLoTrinh": "LT018",
+   "maXe": "XE033",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX055",
+   "maLoTrinh": "LT019",
+   "maXe": "XE006",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX056",
+   "maLoTrinh": "LT019",
+   "maXe": "XE097",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX057",
+   "maLoTrinh": "LT019",
+   "maXe": "XE030",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX058",
+   "maLoTrinh": "LT020",
+   "maXe": "XE004",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX059",
+   "maLoTrinh": "LT020",
+   "maXe": "XE096",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX060",
+   "maLoTrinh": "LT020",
+   "maXe": "XE028",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX061",
+   "maLoTrinh": "LT021",
+   "maXe": "XE008",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX062",
+   "maLoTrinh": "LT021",
+   "maXe": "XE094",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX063",
+   "maLoTrinh": "LT021",
+   "maXe": "XE041",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX064",
+   "maLoTrinh": "LT022",
+   "maXe": "XE018",
+   "giaVe": 80000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX065",
+   "maLoTrinh": "LT022",
+   "maXe": "XE092",
+   "giaVe": 80000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX066",
+   "maLoTrinh": "LT022",
+   "maXe": "XE054",
+   "giaVe": 80000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX067",
+   "maLoTrinh": "LT023",
+   "maXe": "XE034",
+   "giaVe": 150000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX068",
+   "maLoTrinh": "LT023",
+   "maXe": "XE091",
+   "giaVe": 150000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX069",
+   "maLoTrinh": "LT023",
+   "maXe": "XE055",
+   "giaVe": 150000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX070",
+   "maLoTrinh": "LT024",
+   "maXe": "XE032",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX071",
+   "maLoTrinh": "LT024",
+   "maXe": "XE088",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX072",
+   "maLoTrinh": "LT024",
+   "maXe": "XE056",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX073",
+   "maLoTrinh": "LT025",
+   "maXe": "XE030",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX074",
+   "maLoTrinh": "LT025",
+   "maXe": "XE087",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX075",
+   "maLoTrinh": "LT025",
+   "maXe": "XE094",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX076",
+   "maLoTrinh": "LT026",
+   "maXe": "XE027",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX077",
+   "maLoTrinh": "LT026",
+   "maXe": "XE086",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX078",
+   "maLoTrinh": "LT026",
+   "maXe": "XE093",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX079",
+   "maLoTrinh": "LT027",
+   "maXe": "XE026",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX080",
+   "maLoTrinh": "LT027",
+   "maXe": "XE084",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX081",
+   "maLoTrinh": "LT027",
+   "maXe": "XE092",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX082",
+   "maLoTrinh": "LT028",
+   "maXe": "XE023",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX083",
+   "maLoTrinh": "LT028",
+   "maXe": "XE082",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX084",
+   "maLoTrinh": "LT028",
+   "maXe": "XE091",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX085",
+   "maLoTrinh": "LT029",
+   "maXe": "XE021",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX086",
+   "maLoTrinh": "LT029",
+   "maXe": "XE081",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX087",
+   "maLoTrinh": "LT029",
+   "maXe": "XE090",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX088",
+   "maLoTrinh": "LT030",
+   "maXe": "XE055",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX089",
+   "maLoTrinh": "LT030",
+   "maXe": "XE065",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX090",
+   "maLoTrinh": "LT030",
+   "maXe": "XE089",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX091",
+   "maLoTrinh": "LT031",
+   "maXe": "XE020",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX092",
+   "maLoTrinh": "LT031",
+   "maXe": "XE011",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX093",
+   "maLoTrinh": "LT031",
+   "maXe": "XE088",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX094",
+   "maLoTrinh": "LT032",
+   "maXe": "XE025",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX095",
+   "maLoTrinh": "LT032",
+   "maXe": "XE006",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX096",
+   "maLoTrinh": "LT032",
+   "maXe": "XE023",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX097",
+   "maLoTrinh": "LT033",
+   "maXe": "XE029",
+   "giaVe": 145000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX098",
+   "maLoTrinh": "LT033",
+   "maXe": "XE018",
+   "giaVe": 145000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX099",
+   "maLoTrinh": "LT033",
+   "maXe": "XE086",
+   "giaVe": 145000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX100",
+   "maLoTrinh": "LT034",
+   "maXe": "XE033",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX101",
+   "maLoTrinh": "LT034",
+   "maXe": "XE024",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX102",
+   "maLoTrinh": "LT034",
+   "maXe": "XE084",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX103",
+   "maLoTrinh": "LT035",
+   "maXe": "XE017",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX104",
+   "maLoTrinh": "LT035",
+   "maXe": "XE029",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX105",
+   "maLoTrinh": "LT035",
+   "maXe": "XE079",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX106",
+   "maLoTrinh": "LT036",
+   "maXe": "XE003",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX107",
+   "maLoTrinh": "LT036",
+   "maXe": "XE008",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX108",
+   "maLoTrinh": "LT036",
+   "maXe": "XE077",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX109",
+   "maLoTrinh": "LT037",
+   "maXe": "XE007",
+   "giaVe": 230000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX110",
+   "maLoTrinh": "LT037",
+   "maXe": "XE032",
+   "giaVe": 230000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX111",
+   "maLoTrinh": "LT037",
+   "maXe": "XE074",
+   "giaVe": 230000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX112",
+   "maLoTrinh": "LT038",
+   "maXe": "XE016",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX113",
+   "maLoTrinh": "LT038",
+   "maXe": "XE016",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX114",
+   "maLoTrinh": "LT038",
+   "maXe": "XE066",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX115",
+   "maLoTrinh": "LT039",
+   "maXe": "XE037",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX116",
+   "maLoTrinh": "LT039",
+   "maXe": "XE009",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX117",
+   "maLoTrinh": "LT039",
+   "maXe": "XE064",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX118",
+   "maLoTrinh": "LT040",
+   "maXe": "XE015",
+   "giaVe": 210000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX119",
+   "maLoTrinh": "LT040",
+   "maXe": "XE049",
+   "giaVe": 210000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX120",
+   "maLoTrinh": "LT040",
+   "maXe": "XE063",
+   "giaVe": 210000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX121",
+   "maLoTrinh": "LT041",
+   "maXe": "XE058",
+   "giaVe": 80000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX122",
+   "maLoTrinh": "LT041",
+   "maXe": "XE013",
+   "giaVe": 80000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX123",
+   "maLoTrinh": "LT041",
+   "maXe": "XE062",
+   "giaVe": 80000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX124",
+   "maLoTrinh": "LT042",
+   "maXe": "XE064",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX125",
+   "maLoTrinh": "LT042",
+   "maXe": "XE031",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX126",
+   "maLoTrinh": "LT042",
+   "maXe": "XE061",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX127",
+   "maLoTrinh": "LT043",
+   "maXe": "XE059",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX128",
+   "maLoTrinh": "LT043",
+   "maXe": "XE035",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX129",
+   "maLoTrinh": "LT043",
+   "maXe": "XE060",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX130",
+   "maLoTrinh": "LT044",
+   "maXe": "XE039",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX131",
+   "maLoTrinh": "LT044",
+   "maXe": "XE027",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX132",
+   "maLoTrinh": "LT044",
+   "maXe": "XE059",
+   "giaVe": 120000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX133",
+   "maLoTrinh": "LT045",
+   "maXe": "XE043",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX134",
+   "maLoTrinh": "LT045",
+   "maXe": "XE019",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX135",
+   "maLoTrinh": "LT045",
+   "maXe": "XE058",
+   "giaVe": 160000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX136",
+   "maLoTrinh": "LT046",
+   "maXe": "XE053",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX137",
+   "maLoTrinh": "LT046",
+   "maXe": "XE004",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX138",
+   "maLoTrinh": "LT046",
+   "maXe": "XE057",
+   "giaVe": 180000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX139",
+   "maLoTrinh": "LT047",
+   "maXe": "XE049",
+   "giaVe": 210000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX140",
+   "maLoTrinh": "LT047",
+   "maXe": "XE010",
+   "giaVe": 210000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX141",
+   "maLoTrinh": "LT047",
+   "maXe": "XE025",
+   "giaVe": 210000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX142",
+   "maLoTrinh": "LT048",
+   "maXe": "XE031",
+   "giaVe": 255000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX143",
+   "maLoTrinh": "LT048",
+   "maXe": "XE052",
+   "giaVe": 255000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX144",
+   "maLoTrinh": "LT048",
+   "maXe": "XE096",
+   "giaVe": 255000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX145",
+   "maLoTrinh": "LT049",
+   "maXe": "XE052",
+   "giaVe": 255000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX146",
+   "maLoTrinh": "LT049",
+   "maXe": "XE014",
+   "giaVe": 255000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX147",
+   "maLoTrinh": "LT049",
+   "maXe": "XE001",
+   "giaVe": 255000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX148",
+   "maLoTrinh": "LT050",
+   "maXe": "XE041",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX149",
+   "maLoTrinh": "LT050",
+   "maXe": "XE034",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX150",
+   "maLoTrinh": "LT050",
+   "maXe": "XE007",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 300
+  },
+  {
+   "ma": "CX151",
+   "maLoTrinh": "LT051",
+   "maXe": "XE056",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX152",
+   "maLoTrinh": "LT051",
+   "maXe": "XE012",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX153",
+   "maLoTrinh": "LT051",
+   "maXe": "XE013",
+   "giaVe": 130000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX154",
+   "maLoTrinh": "LT052",
+   "maXe": "XE013",
+   "giaVe": 155000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX155",
+   "maLoTrinh": "LT052",
+   "maXe": "XE028",
+   "giaVe": 155000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX156",
+   "maLoTrinh": "LT052",
+   "maXe": "XE015",
+   "giaVe": 155000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX157",
+   "maLoTrinh": "LT053",
+   "maXe": "XE002",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX158",
+   "maLoTrinh": "LT053",
+   "maXe": "XE026",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX159",
+   "maLoTrinh": "LT053",
+   "maXe": "XE018",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX160",
+   "maLoTrinh": "LT054",
+   "maXe": "XE024",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX161",
+   "maLoTrinh": "LT054",
+   "maXe": "XE041",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX162",
+   "maLoTrinh": "LT054",
+   "maXe": "XE004",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 360
+  },
+  {
+   "ma": "CX163",
+   "maLoTrinh": "LT055",
+   "maXe": "XE022",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX164",
+   "maLoTrinh": "LT055",
+   "maXe": "XE083",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX165",
+   "maLoTrinh": "LT055",
+   "maXe": "XE020",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX166",
+   "maLoTrinh": "LT056",
+   "maXe": "XE028",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX167",
+   "maLoTrinh": "LT056",
+   "maXe": "XE050",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX168",
+   "maLoTrinh": "LT056",
+   "maXe": "XE017",
+   "giaVe": 220000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX169",
+   "maLoTrinh": "LT057",
+   "maXe": "XE019",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX170",
+   "maLoTrinh": "LT057",
+   "maXe": "XE093",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX171",
+   "maLoTrinh": "LT057",
+   "maXe": "XE016",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 180
+  },
+  {
+   "ma": "CX172",
+   "maLoTrinh": "LT058",
+   "maXe": "XE005",
+   "giaVe": 165000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX173",
+   "maLoTrinh": "LT058",
+   "maXe": "XE089",
+   "giaVe": 165000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX174",
+   "maLoTrinh": "LT058",
+   "maXe": "XE014",
+   "giaVe": 165000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX175",
+   "maLoTrinh": "LT059",
+   "maXe": "XE011",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX176",
+   "maLoTrinh": "LT059",
+   "maXe": "XE058",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX177",
+   "maLoTrinh": "LT059",
+   "maXe": "XE022",
+   "giaVe": 140000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 240
+  },
+  {
+   "ma": "CX178",
+   "maLoTrinh": "LT060",
+   "maXe": "XE036",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX179",
+   "maLoTrinh": "LT060",
+   "maXe": "XE069",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX180",
+   "maLoTrinh": "LT060",
+   "maXe": "XE010",
+   "giaVe": 110000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX181",
+   "maLoTrinh": "LT061",
+   "maXe": "XE061",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX182",
+   "maLoTrinh": "LT061",
+   "maXe": "XE073",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX183",
+   "maLoTrinh": "LT061",
+   "maXe": "XE021",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 540
+  },
+  {
+   "ma": "CX184",
+   "maLoTrinh": "LT062",
+   "maXe": "XE045",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX185",
+   "maLoTrinh": "LT062",
+   "maXe": "XE098",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX186",
+   "maLoTrinh": "LT062",
+   "maXe": "XE002",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX187",
+   "maLoTrinh": "LT063",
+   "maXe": "XE046",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX188",
+   "maLoTrinh": "LT063",
+   "maXe": "XE080",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX189",
+   "maLoTrinh": "LT063",
+   "maXe": "XE003",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 480
+  },
+  {
+   "ma": "CX190",
+   "maLoTrinh": "LT064",
+   "maXe": "XE051",
+   "giaVe": 315000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX191",
+   "maLoTrinh": "LT064",
+   "maXe": "XE005",
+   "giaVe": 315000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 840,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX192",
+   "maLoTrinh": "LT064",
+   "maXe": "XE097",
+   "giaVe": 315000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 1200,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX3544111034",
+   "maLoTrinh": "LT001",
+   "maXe": "XE005",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 600,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX3890474283",
+   "maLoTrinh": "LT001",
+   "maXe": "XE002",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 600,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX564028427",
+   "maLoTrinh": "LT001",
+   "maXe": "XE007",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 600,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX87923633",
+   "maLoTrinh": "LT001",
+   "maXe": "XE006",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX9079735854",
+   "maLoTrinh": "LT001",
+   "maXe": "XE004",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  },
+  {
+   "ma": "CX9390227044",
+   "maLoTrinh": "LT001",
+   "maXe": "XE001",
+   "giaVe": 240000,
+   "trangThai": "SapChay",
+   "phutKhoiHanh": 480,
+   "soPhutDiChuyen": 420
+  }
+ ],
+ "xe": [
+  {
+   "ma": "XE001",
+   "bienSoXe": "95C-98879",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE002",
+   "bienSoXe": "29B-123.45",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE003",
+   "bienSoXe": "29C-567.89",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE004",
+   "bienSoXe": "94B-19428",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE005",
+   "bienSoXe": "69F-73118",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE006",
+   "bienSoXe": "68H-71487",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE007",
+   "bienSoXe": "94B-20967",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE008",
+   "bienSoXe": "69H-80371",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE009",
+   "bienSoXe": "69H-90668",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE010",
+   "bienSoXe": "94H-43914",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE011",
+   "bienSoXe": "68H-77337",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE012",
+   "bienSoXe": "68C-31308",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE013",
+   "bienSoXe": "68H-87062",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE014",
+   "bienSoXe": "94H-13196",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE015",
+   "bienSoXe": "67H-79374",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE016",
+   "bienSoXe": "94F-13570",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE017",
+   "bienSoXe": "68F-46537",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE018",
+   "bienSoXe": "67F-89977",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE019",
+   "bienSoXe": "65B-18181",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE020",
+   "bienSoXe": "65F-87297",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE021",
+   "bienSoXe": "95F-97033",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE022",
+   "bienSoXe": "69H-18674",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE023",
+   "bienSoXe": "69B-16658",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE024",
+   "bienSoXe": "65F-62841",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE025",
+   "bienSoXe": "69C-23546",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE026",
+   "bienSoXe": "94B-77807",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE027",
+   "bienSoXe": "67F-86415",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE028",
+   "bienSoXe": "95H-66872",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE029",
+   "bienSoXe": "69H-34801",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE030",
+   "bienSoXe": "67B-66601",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE031",
+   "bienSoXe": "65B-93783",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE032",
+   "bienSoXe": "68F-54269",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE033",
+   "bienSoXe": "65B-73477",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE034",
+   "bienSoXe": "67C-30908",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE035",
+   "bienSoXe": "94H-71618",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE036",
+   "bienSoXe": "67B-15343",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE037",
+   "bienSoXe": "67B-69988",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE038",
+   "bienSoXe": "95H-37260",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE039",
+   "bienSoXe": "94F-59595",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE040",
+   "bienSoXe": "68H-47819",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE041",
+   "bienSoXe": "69B-53982",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE042",
+   "bienSoXe": "68C-36490",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE043",
+   "bienSoXe": "67B-72176",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE044",
+   "bienSoXe": "95B-39804",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE045",
+   "bienSoXe": "94H-55088",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE046",
+   "bienSoXe": "68B-33118",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE047",
+   "bienSoXe": "69B-55910",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE048",
+   "bienSoXe": "65H-70990",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE049",
+   "bienSoXe": "65B-23773",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE050",
+   "bienSoXe": "69H-11503",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE051",
+   "bienSoXe": "70C-61750",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE052",
+   "bienSoXe": "91A-19494",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE053",
+   "bienSoXe": "84B-57931",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE054",
+   "bienSoXe": "87A-76510",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE055",
+   "bienSoXe": "63A-21265",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE056",
+   "bienSoXe": "77G-19156",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE057",
+   "bienSoXe": "65B-82226",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE058",
+   "bienSoXe": "77A-84115",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE059",
+   "bienSoXe": "57D-92657",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE060",
+   "bienSoXe": "90A-85642",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE061",
+   "bienSoXe": "87G-16499",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE062",
+   "bienSoXe": "64A-82963",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE063",
+   "bienSoXe": "58E-64937",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE064",
+   "bienSoXe": "59B-84830",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE065",
+   "bienSoXe": "69C-23507",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE066",
+   "bienSoXe": "87D-58810",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE067",
+   "bienSoXe": "56B-83972",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE068",
+   "bienSoXe": "53D-75066",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE069",
+   "bienSoXe": "93G-51175",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE070",
+   "bienSoXe": "79H-57393",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE071",
+   "bienSoXe": "69D-33562",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE072",
+   "bienSoXe": "94D-20728",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE073",
+   "bienSoXe": "86E-78838",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE074",
+   "bienSoXe": "81F-68829",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE075",
+   "bienSoXe": "68B-25475",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE076",
+   "bienSoXe": "82G-31621",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE077",
+   "bienSoXe": "98F-29920",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE078",
+   "bienSoXe": "81G-15138",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE079",
+   "bienSoXe": "92B-83148",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE080",
+   "bienSoXe": "86F-54580",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE081",
+   "bienSoXe": "94F-87905",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE082",
+   "bienSoXe": "81H-19012",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE083",
+   "bienSoXe": "55E-72141",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE084",
+   "bienSoXe": "94B-17952",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE085",
+   "bienSoXe": "96E-94820",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE086",
+   "bienSoXe": "86H-47302",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE087",
+   "bienSoXe": "95G-97641",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE088",
+   "bienSoXe": "72A-70515",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE089",
+   "bienSoXe": "72C-90074",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE090",
+   "bienSoXe": "57H-17727",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE091",
+   "bienSoXe": "63E-26952",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE092",
+   "bienSoXe": "97D-62153",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE093",
+   "bienSoXe": "75H-20561",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE094",
+   "bienSoXe": "60H-62644",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE095",
+   "bienSoXe": "85E-27947",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE096",
+   "bienSoXe": "77E-64433",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE097",
+   "bienSoXe": "72G-40245",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  },
+  {
+   "ma": "XE098",
+   "bienSoXe": "59B-33097",
+   "tenLoaiXe": "Limousine 34 chỗ",
+   "maMauSoDo": "LIMOUSINE_34",
+   "tongSoGhe": 34
+  }
+ ],
+ "mauSoDo": [
+  {
+   "ma": "LIMOUSINE_34",
+   "loaiGhe": "phong",
+   "danhSachGhe": [
+    {
+     "maGhe": "A01",
+     "tang": 1,
+     "hang": 1,
+     "cot": 1
+    },
+    {
+     "maGhe": "A02",
+     "tang": 1,
+     "hang": 1,
+     "cot": 3
+    },
+    {
+     "maGhe": "A03",
+     "tang": 1,
+     "hang": 2,
+     "cot": 1
+    },
+    {
+     "maGhe": "A04",
+     "tang": 1,
+     "hang": 2,
+     "cot": 2
+    },
+    {
+     "maGhe": "A05",
+     "tang": 1,
+     "hang": 2,
+     "cot": 3
+    },
+    {
+     "maGhe": "A06",
+     "tang": 1,
+     "hang": 3,
+     "cot": 1
+    },
+    {
+     "maGhe": "A07",
+     "tang": 1,
+     "hang": 3,
+     "cot": 2
+    },
+    {
+     "maGhe": "A08",
+     "tang": 1,
+     "hang": 3,
+     "cot": 3
+    },
+    {
+     "maGhe": "A09",
+     "tang": 1,
+     "hang": 4,
+     "cot": 1
+    },
+    {
+     "maGhe": "A10",
+     "tang": 1,
+     "hang": 4,
+     "cot": 2
+    },
+    {
+     "maGhe": "A11",
+     "tang": 1,
+     "hang": 4,
+     "cot": 3
+    },
+    {
+     "maGhe": "A12",
+     "tang": 1,
+     "hang": 5,
+     "cot": 1
+    },
+    {
+     "maGhe": "A13",
+     "tang": 1,
+     "hang": 5,
+     "cot": 2
+    },
+    {
+     "maGhe": "A14",
+     "tang": 1,
+     "hang": 5,
+     "cot": 3
+    },
+    {
+     "maGhe": "A15",
+     "tang": 1,
+     "hang": 6,
+     "cot": 1
+    },
+    {
+     "maGhe": "A16",
+     "tang": 1,
+     "hang": 6,
+     "cot": 2
+    },
+    {
+     "maGhe": "A17",
+     "tang": 1,
+     "hang": 6,
+     "cot": 3
+    },
+    {
+     "maGhe": "B01",
+     "tang": 2,
+     "hang": 1,
+     "cot": 1
+    },
+    {
+     "maGhe": "B02",
+     "tang": 2,
+     "hang": 1,
+     "cot": 3
+    },
+    {
+     "maGhe": "B03",
+     "tang": 2,
+     "hang": 2,
+     "cot": 1
+    },
+    {
+     "maGhe": "B04",
+     "tang": 2,
+     "hang": 2,
+     "cot": 2
+    },
+    {
+     "maGhe": "B05",
+     "tang": 2,
+     "hang": 2,
+     "cot": 3
+    },
+    {
+     "maGhe": "B06",
+     "tang": 2,
+     "hang": 3,
+     "cot": 1
+    },
+    {
+     "maGhe": "B07",
+     "tang": 2,
+     "hang": 3,
+     "cot": 2
+    },
+    {
+     "maGhe": "B08",
+     "tang": 2,
+     "hang": 3,
+     "cot": 3
+    },
+    {
+     "maGhe": "B09",
+     "tang": 2,
+     "hang": 4,
+     "cot": 1
+    },
+    {
+     "maGhe": "B10",
+     "tang": 2,
+     "hang": 4,
+     "cot": 2
+    },
+    {
+     "maGhe": "B11",
+     "tang": 2,
+     "hang": 4,
+     "cot": 3
+    },
+    {
+     "maGhe": "B12",
+     "tang": 2,
+     "hang": 5,
+     "cot": 1
+    },
+    {
+     "maGhe": "B13",
+     "tang": 2,
+     "hang": 5,
+     "cot": 2
+    },
+    {
+     "maGhe": "B14",
+     "tang": 2,
+     "hang": 5,
+     "cot": 3
+    },
+    {
+     "maGhe": "B15",
+     "tang": 2,
+     "hang": 6,
+     "cot": 1
+    },
+    {
+     "maGhe": "B16",
+     "tang": 2,
+     "hang": 6,
+     "cot": 2
+    },
+    {
+     "maGhe": "B17",
+     "tang": 2,
+     "hang": 6,
+     "cot": 3
+    }
+   ]
+  }
+ ]
+}
