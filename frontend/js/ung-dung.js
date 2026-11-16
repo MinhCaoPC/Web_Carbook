@@ -3,6 +3,7 @@
 // Lớp UngDung: tải thông tin hợp đồng, giữ phiên đăng nhập + ví MetaMask,
 // vẽ khung giao diện (thanh trên / thanh tab) và chuyển trang theo địa chỉ "#/...".
 // ============================================================
+import './hieu-ung.js'; // hiệu ứng: hiện dần, gợn sóng, vệt sáng, tiến độ cuộn
 import { MayChuApi } from './may-chu-api.js';
 import { ViMetaMask, HopDongVeXe } from './vi-metamask.js';
 import { icon, h, chuDau, rutGonDiaChi, thongBao, dangXuLy, htmlDangTai, htmlLoi, doiGiaoDien, saoChep } from './giao-dien.js';

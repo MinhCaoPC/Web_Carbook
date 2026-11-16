@@ -97,7 +97,10 @@ async function ganNutGoogle(trang, hop, khiXong) {
       },
     });
     const cho = hop.querySelector('.g-btn');
-    window.google.accounts.id.renderButton(cho, { theme: 'outline', size: 'large', text: 'continue_with', shape: 'pill', width: Math.min(cho.clientWidth || 320, 400) });
+    // Độ rộng nút Google = bề rộng ô chứa lúc này (đo cả ô cha phòng khi ô chưa có kích thước), tối đa 400; không có số đo thì lấy 260 cho vừa điện thoại nhỏ
+    const rong = Math.floor(cho.getBoundingClientRect().width || hop.getBoundingClientRect().width || 260);
+    // Ô hẹp (< 300px): dùng chữ ngắn "Đăng nhập bằng Google" vì Google không cho nút co nhỏ hơn độ dài chữ
+    window.google.accounts.id.renderButton(cho, { theme: 'outline', size: 'large', text: rong < 300 ? 'signin_with' : 'continue_with', shape: 'pill', width: Math.max(200, Math.min(rong, 400)) });
   } catch {
     hop.remove();
   }
