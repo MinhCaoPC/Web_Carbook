@@ -48,9 +48,11 @@ const CAU_HINH = Object.freeze({
   // 'localhost' (mạng ảo Hardhat/Ganache) hoặc 'sepolia'.
   // Chọn Sepolia bằng `npm run start:sepolia` (thêm cờ --sepolia) hoặc MANG_BLOCKCHAIN=sepolia trong .env
   mangBlockchain: MANG_BLOCKCHAIN,
-  // Mạng ảo: RPC_URL (mặc định máy mình). Sepolia: RPC_URL_SEPOLIA, bỏ trống thì dùng RPC công khai miễn phí
+  // Mạng ảo: RPC_URL (mặc định máy mình). Sepolia: RPC_URL_SEPOLIA, bỏ trống thì dùng RPC công khai miễn phí của Tenderly.
+  // (Không dùng publicnode: nó chỉ giữ lịch sử sự kiện vài ngày gần nhất -> báo "pruned history unavailable",
+  //  làm hỏng thống kê, thông báo, vé đã hủy vốn đọc lại toàn bộ sự kiện từ lúc triển khai hợp đồng.)
   rpcUrl: MANG_BLOCKCHAIN === 'sepolia'
-    ? process.env.RPC_URL_SEPOLIA || 'https://ethereum-sepolia-rpc.publicnode.com'
+    ? process.env.RPC_URL_SEPOLIA || 'https://sepolia.gateway.tenderly.co'
     : process.env.RPC_URL || 'http://127.0.0.1:8545',
   fileDiaChiHopDong: path.join(THU_MUC_BLOCKCHAIN, 'dia-chi-hop-dong.json'),
   fileAbiHopDong: path.join(THU_MUC_BLOCKCHAIN, 'artifacts', 'contracts', 'VeXeNFT.sol', 'VeXeNFT.json'),

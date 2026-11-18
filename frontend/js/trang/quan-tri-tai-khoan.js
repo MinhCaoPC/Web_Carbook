@@ -48,17 +48,17 @@ export class TrangQuanTriTaiKhoan extends TrangQuanTriCoSo {
     const loc = this.danhSach.filter((n) => !this.tuKhoa || [n.email, n.hoTen, n.sdt, n.diaChiLienHe, n.diaChiVi].join(' ').toLowerCase().includes(this.tuKhoa));
     const toi = this.ud.nguoiDung.email;
     const ds = this.vung.querySelector('#ds');
-    ds.innerHTML = `<div class="card pad-0"><div class="bang-cuon"><table class="bang">
-      <thead><tr><th>Tài khoản</th><th>Vai trò</th><th>Ví MetaMask</th><th>Đăng nhập</th><th>Ngày tạo</th><th>Trạng thái</th><th></th></tr></thead>
+    // 4 cột gọn (gộp vai trò + ví, đăng nhập + ngày tạo, trạng thái + nút khóa) để thấy hết bảng, không phải kéo ngang
+    ds.innerHTML = `<div class="card pad-0"><div class="bang-cuon"><table class="bang bang-tai-khoan">
+      <thead><tr><th>Tài khoản</th><th>Vai trò · Ví</th><th>Đăng nhập</th><th>Trạng thái</th></tr></thead>
       <tbody>${loc.map((n) => `<tr class="${n.biKhoa ? 'mo-nhat' : ''}">
-        <td><b>${h(n.hoTen || '—')}</b><div class="hint">${h(n.email)}${n.sdt ? ` · ${h(n.sdt)}` : ''}</div>${n.diaChiLienHe ? `<div class="hint">${h(n.diaChiLienHe)}</div>` : ''}</td>
-        <td>${NHAN_VAI_TRO[n.vaiTro] || NHAN_VAI_TRO.khach}</td>
-        <td class="mono">${n.diaChiVi ? h(rutGonDiaChi(n.diaChiVi)) : '<span class="muted">chưa liên kết</span>'}</td>
-        <td>${[n.coMatKhau ? 'Mật khẩu' : '', n.lienKetGoogle ? 'Google' : ''].filter(Boolean).join(' + ') || '—'}</td>
-        <td>${ngay(n.ngayTao)}</td>
-        <td>${n.biKhoa ? '<span class="badge red">Đã khóa</span>' : '<span class="badge green">Hoạt động</span>'}</td>
-        <td>${this.nutKhoa(n, toi)}</td>
-      </tr>`).join('') || '<tr><td colspan="7" class="center muted">Không có tài khoản phù hợp.</td></tr>'}</tbody></table></div></div>
+        <td><b>${h(n.hoTen || '—')}</b><div class="hint ngat-chu">${h(n.email)}</div>${n.sdt ? `<div class="hint">${h(n.sdt)}</div>` : ''}${n.diaChiLienHe ? `<div class="hint">${h(n.diaChiLienHe)}</div>` : ''}</td>
+        <td>${NHAN_VAI_TRO[n.vaiTro] || NHAN_VAI_TRO.khach}
+          <div class="hint mono">${n.diaChiVi ? h(rutGonDiaChi(n.diaChiVi)) : 'chưa liên kết ví'}</div></td>
+        <td>${[n.coMatKhau ? 'Mật khẩu' : '', n.lienKetGoogle ? 'Google' : ''].filter(Boolean).join(' + ') || '—'}
+          <div class="hint">Tạo ${ngay(n.ngayTao)}</div></td>
+        <td><div class="o-trang-thai">${n.biKhoa ? '<span class="badge red">Đã khóa</span>' : '<span class="badge green">Hoạt động</span>'}${this.nutKhoa(n, toi)}</div></td>
+      </tr>`).join('') || '<tr><td colspan="4" class="center muted">Không có tài khoản phù hợp.</td></tr>'}</tbody></table></div></div>
       <p class="hint mt-s">${loc.length}/${this.danhSach.length} tài khoản · Vai trò đọc từ hợp đồng trên blockchain.
         Chỉ khóa được <b>nhân viên soát vé</b>; tài khoản khách hàng không bị nhà xe khóa.</p>`;
 

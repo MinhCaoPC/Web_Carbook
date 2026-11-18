@@ -519,6 +519,12 @@ table.bang { width: 100%; border-collapse: collapse; font-size: 14px; }
 .bang td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
 .bang tr:last-child td { border-bottom: 0; }
 .bang td.so, .bang th.so { text-align: right; font-variant-numeric: tabular-nums; }
+/* Bảng tài khoản (trang Nhà xe): 4 cột gọn, vừa khung, không phải kéo ngang */
+.bang-tai-khoan td { vertical-align: top; }
+.bang-tai-khoan td .hint { margin-top: 4px; }
+.bang-tai-khoan .ngat-chu { overflow-wrap: anywhere; }
+.bang-tai-khoan .o-trang-thai { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.bang-tai-khoan .o-trang-thai .badge { white-space: nowrap; }
 .bang tr.mo-nhat td { color: var(--muted); }
 
 .bieu-do { width: 100%; position: relative; }

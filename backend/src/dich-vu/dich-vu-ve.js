@@ -1,4 +1,5 @@
 const { LoiNghiepVu } = require('../tien-ich/loi-nghiep-vu');
+const { homNay } = require('../tien-ich/thoi-gian');
 
 /**
  * DỊCH VỤ VÉ — ghép dữ liệu ON-CHAIN (vé NFT) với dữ liệu OFF-CHAIN (thông tin chuyến, hành khách).
@@ -155,6 +156,43 @@ class DichVuVe {
    * Kiểm tra trước mã QR = { maVe, chuKy } — QR trên điện thoại hay vé in đều giống nhau, KHÔNG có hạn
    * (giống hệt điều hợp đồng sẽ kiểm tra khi xác nhận lên xe): người ký có phải chủ vé hiện tại? vé còn hiệu lực?
    */
+  /**
+   * LỊCH SỬ SOÁT VÉ — đọc từ sự kiện DaSuDungVe(maVe, nhanVien) mà hợp đồng phát ra mỗi lần xác nhận lên xe,
+   * nên không ai sửa / xóa được và không tốn lượt Firebase.
+   *   - Nhân viên soát vé: chỉ thấy các vé CHÍNH MÌNH đã soát.
+   *   - Nhà xe (chủ hợp đồng): thấy toàn bộ, kèm ví nhân viên đã soát.
+   * Vé đã soát không chuyển nhượng được nữa -> chủ hiện tại chính là người đã lên xe (dùng để lấy tên hành khách).
+   */
+  async lichSuSoatVe(nguoiDung, { soLuong = 50 } = {}) {
+    const vi = nguoiDung.diaChiVi;
+    if (!(await this.blockchain.coQuyenSoatVe(vi))) {
+      throw new LoiNghiepVu('Ví liên kết với tài khoản này không có quyền soát vé.', 403);
+    }
+    if (!this.nhatKySuKien) return { laNhaXe: false, tongSo: 0, homNay: 0, danhSach: [] };
+    const laNhaXe = vi === (await this.blockchain.chuHopDong());
+
+    await this.nhatKySuKien.capNhat();
+    const tatCa = this.nhatKySuKien.danhSach
+      .filter((s) => s.ten === 'DaSuDungVe' && (laNhaXe || String(s.thamSo.nhanVien).toLowerCase() === vi))
+      .reverse(); // mới soát lên trước
+    const ngayHomNay = homNay();
+    const soHomNay = tatCa.filter((s) => s.thoiGian && homNay(s.thoiGian) === ngayHomNay).length;
+
+    const n = Math.min(Math.max(Number(soLuong) || 50, 1), 200);
+    const danhSach = await Promise.all(tatCa.slice(0, n).map(async (s) => {
+      const ve = await this.blockchain.layVe(Number(s.thamSo.maVe));
+      const hanhKhach = await this.khoThongTinVe.lay(ve.maVe);
+      return {
+        ...this._ganThongTinChuyen(ve),
+        thoiGianSoat: s.thoiGian ? new Date(s.thoiGian).toISOString() : null,
+        nhanVien: String(s.thamSo.nhanVien).toLowerCase(),
+        maGiaoDich: s.maGiaoDich,
+        hanhKhach: hanhKhach && hanhKhach.diaChiChu === ve.chuSoHuu ? { hoTen: hanhKhach.hoTen, sdt: hanhKhach.sdt } : null,
+      };
+    }));
+    return { laNhaXe, tongSo: tatCa.length, homNay: soHomNay, danhSach };
+  }
+
   async kiemTraSoatVe(nhanVien, { maVe, chuKy }) {
     if (!(await this.blockchain.coQuyenSoatVe(nhanVien.diaChiVi))) {
       throw new LoiNghiepVu('Ví liên kết với tài khoản này không có quyền soát vé.', 403);

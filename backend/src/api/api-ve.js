@@ -33,6 +33,11 @@ function taoApiVe({ dichVuVe, canDangNhap }) {
     res.json({ thanhCong: true, danhSach: await dichVuVe.choVe() });
   }));
 
+  // Lịch sử soát vé (sự kiện DaSuDungVe): nhân viên thấy vé mình đã soát, nhà xe thấy tất cả. ?soLuong=50
+  r.get('/soat-ve/lich-su', canDangNhap, boc(async (req, res) => {
+    res.json({ thanhCong: true, ...(await dichVuVe.lichSuSoatVe(req.nguoiDung, { soLuong: req.query.soLuong })) });
+  }));
+
   // Soát vé — bước kiểm tra mã QR: { maVe, chuKy }
   r.post('/soat-ve/kiem-tra', canDangNhap, boc(async (req, res) => {
     res.json({ thanhCong: true, ...(await dichVuVe.kiemTraSoatVe(req.nguoiDung, req.body || {})) });

@@ -319,7 +319,16 @@ input.in, select.in, textarea.in, button.in { border-radius: 16px; background-co
 .bang tbody tr:hover { background: var(--primary-50); }
 .bieu-do .cot { transform-box: fill-box; transform-origin: bottom; animation: cot-moc .7s var(--ease) both; }
 @keyframes cot-moc { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-.hop-lich { border-radius: 24px; box-shadow: var(--shadow-lg); animation: modal-len .25s var(--ease); }
+/* Hộp lịch là lớp nổi: nền ĐẶC (không kính mờ) để nội dung phía dưới không lộ qua */
+.hop-lich {
+  border-radius: 24px; animation: modal-len .25s var(--ease);
+  background: var(--surface); border-color: var(--line);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: 0 24px 60px rgba(8, 40, 52, .28), 0 4px 14px rgba(8, 40, 52, .12);
+}
+/* Khi lịch đang mở: đưa khung chứa lên trên các thẻ phía sau (thẻ có hiệu ứng tạo lớp xếp chồng riêng) */
+.lich-chon-ngay:has(.hop-lich:not([hidden])) { z-index: 60; }
+.search-card:has(.hop-lich:not([hidden])), .card:has(.hop-lich:not([hidden])) { position: relative; z-index: 60; }
 .ngay-lich { transition: transform .15s var(--ease), background .15s; }
 .ngay-lich:not(:disabled):hover { transform: scale(1.12); }
 .ngay-lich.on { background: var(--grad-soft) !important; color: var(--ink-teal) !important; }

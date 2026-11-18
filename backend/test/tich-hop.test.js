@@ -148,6 +148,17 @@ test('luồng đầy đủ: mở bán -> mua -> vé của tôi -> QR -> soát v�
   assert.equal(sauSoat.hopLe, false);
   assert.ok(sauSoat.loi.includes('Vé đã được sử dụng.'));
 
+  // LỊCH SỬ SOÁT VÉ (sự kiện DaSuDungVe): nhân viên thấy lượt mình vừa soát kèm tên hành khách; khách không xem được
+  const lichSu = await api('/api/ve/soat-ve/lich-su', { token: tokenNhanVien });
+  assert.equal(lichSu.ma, 200);
+  assert.equal(lichSu.tongSo, 1);
+  assert.equal(lichSu.homNay, 1);
+  assert.equal(lichSu.danhSach[0].maVe, 1);
+  assert.equal(lichSu.danhSach[0].hanhKhach.hoTen, 'Nguyễn Văn An');
+  assert.equal(lichSu.danhSach[0].nhanVien, viNhanVien.address.toLowerCase());
+  assert.ok(lichSu.danhSach[0].maGiaoDich);
+  assert.equal((await api('/api/ve/soat-ve/lich-su', { token: tokenKhach })).ma, 403);
+
   // THÔNG BÁO dựng từ sự kiện blockchain: 2 lần "đặt vé thành công" + 1 lần "đã lên xe"
   const tb = await api('/api/thong-bao', { token: tokenKhach });
   const loai = tb.danhSach.map((n) => n.loai);

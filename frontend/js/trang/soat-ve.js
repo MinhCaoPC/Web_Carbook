@@ -28,6 +28,11 @@ export class TrangSoatVe extends TrangCoSo {
               <textarea class="in mono" id="qr" rows="3" placeholder='{"maVe":1,"chuKy":"0x..."}'></textarea></div>
             <button class="btn" id="nut-kiem-tra">${icon('search', 'sm')} Kiểm tra vé</button>
           </div>
+          <div class="card stack">
+            <div class="row between wrap"><h3 style="margin:0">${icon('check', 'sm')} Lịch sử soát vé</h3>
+              <button class="btn sm ghost" id="nut-lam-moi">Làm mới</button></div>
+            <div id="lich-su-soat">${htmlDangTai}</div>
+          </div>
         </section>
         <aside class="sticky-side" id="ket-qua">
           <div class="card"><div class="empty" style="padding:28px 8px">${icon('qr')}<h3>Chưa quét vé nào</h3><p>Kết quả kiểm tra sẽ hiện ở đây.</p></div></div>
@@ -37,6 +42,44 @@ export class TrangSoatVe extends TrangCoSo {
     khung.querySelector('#nut-camera').addEventListener('click', (e) => this.batTatCamera(e.currentTarget));
     khung.querySelector('#nut-kiem-tra').addEventListener('click', (e) =>
       dangXuLy(e.currentTarget, () => this.kiemTra(khung.querySelector('#qr').value)));
+    khung.querySelector('#nut-lam-moi').addEventListener('click', (e) => dangXuLy(e.currentTarget, () => this.taiLichSu()));
+    this.taiLichSu();
+  }
+
+  /**
+   * Lịch sử soát vé — đọc từ sự kiện DaSuDungVe trên blockchain (không sửa được).
+   * Nhân viên thấy vé mình đã soát; nhà xe thấy tất cả kèm ví nhân viên.
+   */
+  async taiLichSu() {
+    const o = this.khung.querySelector('#lich-su-soat');
+    if (!o) return;
+    let kq;
+    try {
+      kq = await this.api.lay('/api/ve/soat-ve/lich-su?soLuong=50');
+    } catch (loi) {
+      o.innerHTML = `<div class="err-msg">${h(loi.message)}</div>`;
+      return;
+    }
+    const laSepolia = this.ud.thongTinHopDong?.tenMang === 'sepolia';
+    const tom = `<p class="hint" style="margin:0">Hôm nay: <b>${kq.homNay}</b> vé · Tổng: <b>${kq.tongSo}</b> vé
+      ${kq.laNhaXe ? '(tất cả nhân viên)' : '(do bạn soát)'}${kq.tongSo > kq.danhSach.length ? ` · hiện ${kq.danhSach.length} lượt mới nhất` : ''}</p>`;
+    if (!kq.danhSach.length) {
+      o.innerHTML = `${tom}<p class="muted" style="margin:8px 0 0">Chưa soát vé nào.</p>`;
+      return;
+    }
+    o.innerHTML = `${tom}<div class="bang-cuon"><table class="bang bang-lich-su-soat">
+      <thead><tr><th>Lúc soát</th><th>Vé · Ghế</th><th>Hành khách · Tuyến</th>${kq.laNhaXe ? '<th>Nhân viên</th>' : ''}<th></th></tr></thead>
+      <tbody>${kq.danhSach.map((v) => {
+        const c = v.chuyen || {};
+        return `<tr>
+          <td>${v.thoiGianSoat ? ngayGio(v.thoiGianSoat) : '—'}</td>
+          <td><b>#${v.maVe}</b><div class="hint">Ghế ${h(v.maGhe)}</div></td>
+          <td>${h(v.hanhKhach?.hoTen || '(chưa có tên)')}
+            <div class="hint">${h(c.diemKhoiHanh || v.maChuyen)}${c.diemKetThuc ? ` → ${h(c.diemKetThuc)}` : ''} · ${ngayGio(v.gioKhoiHanh)}</div></td>
+          ${kq.laNhaXe ? `<td class="mono">${h(rutGonDiaChi(v.nhanVien))}</td>` : ''}
+          <td>${laSepolia && v.maGiaoDich ? `<a target="_blank" rel="noopener" title="Xem giao dịch trên Etherscan" href="https://sepolia.etherscan.io/tx/${h(v.maGiaoDich)}">${icon('ext', 'sm')}</a>` : ''}</td>
+        </tr>`;
+      }).join('')}</tbody></table></div>`;
   }
 
   async batTatCamera(nut) {
@@ -104,6 +147,7 @@ export class TrangSoatVe extends TrangCoSo {
       await this.hopDong.danhDauDaSuDung(duLieu.maVe, duLieu.chuKy);
       baoThanhCong(`Vé #${duLieu.maVe} đã được đánh dấu ĐÃ SỬ DỤNG.`);
       await this.kiemTra(noiDungQR);
+      await this.taiLichSu(); // lượt vừa soát hiện ngay trong lịch sử
     }, 'Chờ MetaMask…'));
   }
 }

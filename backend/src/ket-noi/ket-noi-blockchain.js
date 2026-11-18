@@ -63,7 +63,8 @@ class KetNoiBlockchain {
       if (!this.rpcUrl) throw new LoiNghiepVu('Chưa cấu hình RPC_URL cho blockchain.', 503);
       // cacheTimeout -1: không giữ kết quả cũ -> trạng thái ghế luôn mới nhất, và script gửi nhiều giao dịch
       // liên tiếp trên mạng ảo (tạo khối tức thì) không bị trùng nonce
-      this._provider = new ethers.JsonRpcProvider(this.rpcUrl, undefined, { staticNetwork: true, cacheTimeout: -1 });
+      // batchMaxCount 1: gửi từng yêu cầu riêng, không gom lô — RPC công khai (vd Tenderly) từ chối lô lớn khi đọc nhiều khối cùng lúc
+      this._provider = new ethers.JsonRpcProvider(this.rpcUrl, undefined, { staticNetwork: true, cacheTimeout: -1, batchMaxCount: 1 });
     }
     return this._provider;
   }
