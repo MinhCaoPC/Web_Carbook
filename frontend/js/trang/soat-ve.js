@@ -28,15 +28,16 @@ export class TrangSoatVe extends TrangCoSo {
               <textarea class="in mono" id="qr" rows="3" placeholder='{"maVe":1,"chuKy":"0x..."}'></textarea></div>
             <button class="btn" id="nut-kiem-tra">${icon('search', 'sm')} Kiểm tra vé</button>
           </div>
-          <div class="card stack">
-            <div class="row between wrap"><h3 style="margin:0">${icon('check', 'sm')} Lịch sử soát vé</h3>
-              <button class="btn sm ghost" id="nut-lam-moi">Làm mới</button></div>
-            <div id="lich-su-soat">${htmlDangTai}</div>
-          </div>
         </section>
         <aside class="sticky-side" id="ket-qua">
           <div class="card"><div class="empty" style="padding:28px 8px">${icon('qr')}<h3>Chưa quét vé nào</h3><p>Kết quả kiểm tra sẽ hiện ở đây.</p></div></div>
         </aside>
+      </div>
+      <!-- Lịch sử soát vé: trải rộng hết trang (dưới cả 2 cột) để thấy đủ các cột, không phải kéo ngang -->
+      <div class="card stack mt">
+        <div class="row between wrap"><h3 style="margin:0">${icon('check', 'sm')} Lịch sử soát vé</h3>
+          <button class="btn sm ghost" id="nut-lam-moi">Làm mới</button></div>
+        <div id="lich-su-soat">${htmlDangTai}</div>
       </div>`;
 
     khung.querySelector('#nut-camera').addEventListener('click', (e) => this.batTatCamera(e.currentTarget));
